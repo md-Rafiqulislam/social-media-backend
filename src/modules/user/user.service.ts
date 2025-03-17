@@ -41,8 +41,9 @@ const updateUserIntoDb = async (payload: Partial<TUser>) => {
 
 
 // delete user into db
-const deleteUserIntoDb = async () => {
-
+const deleteUserIntoDb = async (payload: string) => {
+    const result = await userModel.findOneAndUpdate({ email: payload }, { isDeleted: true }, { new: true });
+    return result;
 };
 
 

@@ -34,7 +34,7 @@ const updateUser = catchAsync(async (req, res) => {
 
 // delete user
 const deleteUser = catchAsync(async (req, res) => {
-    await userServices.deleteUserIntoDb();
+    await userServices.deleteUserIntoDb(req.body);
 
     // send response to the client
     sendResponse(res, {
