@@ -1,5 +1,6 @@
 
 // all the imports here
+import { authRoutes } from "../modules/auth/auth.route";
 import { postRoutes } from "../modules/post/post.route";
 import { userRoutes } from "../modules/user/user.route";
 import { createRotuer } from "../utils/createRouter";
@@ -17,6 +18,10 @@ const modulesRoute: TRoute[] = [
     {
         path: '/post',
         route: postRoutes,
+    },
+    {
+        path: '/auth',
+        route: authRoutes,
     }
 ];
 
