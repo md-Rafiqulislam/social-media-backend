@@ -1,0 +1,57 @@
+
+
+// all the imports here
+import { model, Schema } from "mongoose";
+import { TUser } from "./user.type";
+import { userGender, userRole } from "./user.constant"; // user role type
+
+
+// user model schema
+const useerSchema = new Schema<TUser>({
+    name: {
+        type: String,
+        required: [true, 'user name is required.'],
+        trim: true,
+        minlength: [2, 'Name must be at least 2 characters long.'],
+        maxlength: [50, 'Name cannot exceed 50 characters.'],
+    },
+    email: {
+        type: String,
+        required: [true, 'user email address is required.'],
+        unique: true,
+        trim: true,
+        match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'],
+    },
+    password: {
+        type: String,
+        required: [true, 'user password is required.'],
+        trim: true,
+        validate: {
+            validator: function (value: string) {
+                return /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/g.test(value);
+            },
+            message: 'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
+        },
+    },
+    gender: {
+        type: String,
+        enum: Object.values(userGender),
+        trim: true,
+    },
+    userRole: {
+        type: String,
+        enum: Object.values(userRole),
+        default: userRole.user,
+        trim: true,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    }
+}, {
+    timestamps: true,
+});
+
+
+// create user model and export
+export const userModel = model('User', useerSchema);
