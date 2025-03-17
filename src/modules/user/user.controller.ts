@@ -31,7 +31,6 @@ const updateUser = catchAsync(async (req, res) => {
     });
 });
 
-
 // delete user
 const deleteUser = catchAsync(async (req, res) => {
     await userServices.deleteUserIntoDb(req.body);
@@ -44,7 +43,6 @@ const deleteUser = catchAsync(async (req, res) => {
         data: null,
     });
 });
-
 
 // create admin
 const createAdmin = catchAsync(async (req, res) => {
@@ -59,7 +57,6 @@ const createAdmin = catchAsync(async (req, res) => {
     });
 });
 
-
 // update admin
 const updateAdmin = catchAsync(async (req, res) => {
     const result = await userServices.updateAdminIntoDb(req.body);
@@ -72,6 +69,7 @@ const updateAdmin = catchAsync(async (req, res) => {
         data: result,
     });
 });
+
 
 // delete admin
 const deleteAdmin = catchAsync(async (req, res) => {
