@@ -15,6 +15,10 @@ const postSchema = new Schema<TPost>({
         required: [true, 'post description is required.'],
         trim: true,
     },
+    isFavourite: {
+        type: Boolean,
+        default: false,
+    },
     isDeleted: {
         type: String,
         default: false,
