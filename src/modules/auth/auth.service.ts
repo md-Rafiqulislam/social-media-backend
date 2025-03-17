@@ -29,7 +29,7 @@ const loginUserIntoDb = async (payload: TLogin) => {
 };
 
 
-// all the auth services
+// export all the auth services
 export const authServices = {
     loginUserIntoDb
 };
