@@ -70,6 +70,16 @@ const updateAdminIntoDb = async (payload: TUser) => {
     return result;
 };
 
+
+
+// delete admin into db
+const deleteAdminIntoDb = async (payload: string) => {
+
+    // delete admin
+    const result = await userModel.findOneAndUpdate({ email: payload }, { isDeleted: true }, { new: true });
+    return result;
+};
+
 // all the user services
 export const userServices = {
     createUserIntoDb,
@@ -77,4 +87,5 @@ export const userServices = {
     updateUserIntoDb,
     updateAdminIntoDb,
     deleteUserIntoDb,
+    deleteAdminIntoDb,
 };

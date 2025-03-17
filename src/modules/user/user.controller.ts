@@ -73,6 +73,19 @@ const updateAdmin = catchAsync(async (req, res) => {
     });
 });
 
+// delete admin
+const deleteAdmin = catchAsync(async (req, res) => {
+    const result = await userServices.deleteAdminIntoDb(req.body);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: 'admin deleted successfully.',
+        data: null,
+    });
+});
+
 // all the user controllers
 export const userControllers = {
     createUser,
@@ -80,4 +93,5 @@ export const userControllers = {
     updateUser,
     updateAdmin,
     deleteUser,
+    deleteAdmin,
 };
