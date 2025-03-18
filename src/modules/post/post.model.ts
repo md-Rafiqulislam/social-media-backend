@@ -22,6 +22,11 @@ const postSchema = new Schema<TPost>({
     isDeleted: {
         type: String,
         default: false,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'UserId is required.'],
     }
 }, {
     timestamps: true,
