@@ -8,6 +8,5 @@ export const notFound = (req: Request, res: Response) => {
         message: 'API NOT FOUND!!!',
         errorUrl: req.url,
         error: null,
-
     });
 };
