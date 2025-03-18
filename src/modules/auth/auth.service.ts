@@ -1,8 +1,10 @@
 
 // all the imports here
+import { envFile } from "../../envConfig";
 import { sendError } from "../../errors/appError";
 import { userModel } from "../user/user.model";
 import { TLogin } from "./auth.type";
+import { createToken } from "./auth.utils";
 
 
 // login user into db
@@ -16,7 +18,7 @@ const loginUserIntoDb = async (payload: TLogin) => {
     }
 
     // find the user from db
-    const result = await userModel.findOne({ email: payload?.email }).select("email userRole");
+    const result = await userModel.findOne({ email: payload?.email }).select("_id email userRole");
 
     // check the result is correct or not
     if (!result) {
@@ -26,6 +28,9 @@ const loginUserIntoDb = async (payload: TLogin) => {
     } else if (result?.isDeleted) {
         sendError(400, 'user is deleted.');
     }
+
+
+    const accessToken = createToken({ userId: result?._id, userRole: result?.userRole }, envFile.accessTokenSecret, envFile.accessTokenExpire);
 
     return result;
 };
