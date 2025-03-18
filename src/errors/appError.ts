@@ -1,6 +1,6 @@
 
 // create AppError class from Error
-class AppError extends Error {
+export class AppError extends Error {
     public statusCode: number;
     public success: boolean;
 

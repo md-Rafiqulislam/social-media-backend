@@ -8,6 +8,7 @@ import { TErrorSources } from "../types/error.type";
 import { handleValidationError } from "../errors/validationError";
 import { handleCastError } from "../errors/castError";
 import { handleDuplicationError } from "../errors/duplicationError";
+import { AppError } from "../errors/appError";
 
 // global error handler
 export const globalErrorHandler: ErrorRequestHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
@@ -42,6 +43,23 @@ export const globalErrorHandler: ErrorRequestHandler = (error: any, req: Request
         statusCode = simplifiedError?.statusCode;
         message = simplifiedError?.message;
         errorSources = simplifiedError?.errorSources;
+    } else if (error instanceof AppError) {
+        statusCode = error?.statusCode;
+        message = error?.message;
+        errorSources = [
+            {
+                path: '',
+                message: error?.message,
+            },
+        ];
+    } else if (error instanceof Error) {
+        message = error?.message;
+        errorSources = [
+            {
+                path: '',
+                message: error?.message,
+            },
+        ];
     }
 
     // send response
