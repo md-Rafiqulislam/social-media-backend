@@ -23,6 +23,8 @@ const loginUserIntoDb = async (payload: TLogin) => {
         sendError(404, 'user not found!!!');
     } else if (result?.password !== payload?.password) {
         sendError(400, 'invalid password!!!');
+    } else if (result?.isDeleted) {
+        sendError(400, 'user is deleted.');
     }
 
     return result;
