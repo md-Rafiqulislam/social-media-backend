@@ -1,4 +1,7 @@
 
+// all the imports here
+import { Types } from "mongoose";
+
 // login type
 export type TLogin = {
     email: string;
@@ -8,6 +11,6 @@ export type TLogin = {
 
 // jwt payload type
 export type TJwtPayload = {
-    userId: string;
-    userRole: string;
+    userId: Types.ObjectId;
+    userRole: any;
 };

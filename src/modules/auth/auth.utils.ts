@@ -2,15 +2,18 @@
 // all the imports here
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { sendError } from '../../errors/appError';
+import { TJwtPayload } from './auth.type';
 
 // token creation function
 export const createToken = (
-    jwtPayload: { userId: string; userRole: string },
+    jwtPayload: TJwtPayload,
     secret: string,
-    expiresIn: string
+    expiresIn: number,
 ) => {
     try {
-        return jwt.sign(jwtPayload, secret, { expiresIn });
+        return jwt.sign(jwtPayload, secret, {
+            expiresIn,
+          });
     } catch (error) {
         sendError(400, "Token generation failed");
     }

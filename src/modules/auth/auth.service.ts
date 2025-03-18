@@ -3,7 +3,7 @@
 import { envFile } from "../../envConfig";
 import { sendError } from "../../errors/appError";
 import { userModel } from "../user/user.model";
-import { TLogin } from "./auth.type";
+import { TJwtPayload, TLogin } from "./auth.type";
 import { createToken } from "./auth.utils";
 
 
@@ -18,7 +18,7 @@ const loginUserIntoDb = async (payload: TLogin) => {
     }
 
     // find the user from db
-    const result = await userModel.findOne({ email: payload?.email }).select("_id email userRole");
+    const result = await userModel.findOne({ email: payload?.email });
 
     // check the result is correct or not
     if (!result) {
@@ -27,12 +27,22 @@ const loginUserIntoDb = async (payload: TLogin) => {
         sendError(400, 'invalid password!!!');
     } else if (result?.isDeleted) {
         sendError(400, 'user is deleted.');
+    } else {
+
+        const jwtPayload: TJwtPayload = {
+            userId: result._id,
+            userRole: result.userRole,
+        };
+    
+        const accessToken = createToken(jwtPayload, envFile.accessTokenSecret, envFile.accessTokenExpire);
+        const refreshToken = createToken(jwtPayload, envFile.accessTokenSecret, envFile.accessTokenExpire);
+    
+        return {
+            accessToken,
+            refreshToken
+        };
     }
 
-
-    const accessToken = createToken({ userId: result?._id, userRole: result?.userRole }, envFile.accessTokenSecret, envFile.accessTokenExpire);
-
-    return result;
 };
 
 
