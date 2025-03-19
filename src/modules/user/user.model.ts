@@ -3,7 +3,7 @@
 // all the imports here
 import { model, Schema } from "mongoose";
 import { TUser } from "./user.type";
-import { userGender, userRole } from "./user.constant"; // user role type
+import { userGender, userRole, userStatus } from "./user.constant"; // user role type
 
 
 // user model schema
@@ -43,6 +43,10 @@ const useerSchema = new Schema<TUser>({
         enum: Object.values(userRole),
         default: userRole.user,
         trim: true,
+    },
+    userStatus: {
+        type: String,
+        default: userStatus.active,
     },
     isDeleted: {
         type: Boolean,

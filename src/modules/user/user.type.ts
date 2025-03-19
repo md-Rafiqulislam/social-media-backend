@@ -1,13 +1,23 @@
 
 // all the imports here
-import { userGender, userRole } from "./user.constant";
+import { userGender, userRole, userStatus } from "./user.constant";
+
+// user role type
+export type TUserRole = keyof typeof userRole;
+
+// user gender type
+export type TUserGender = keyof typeof userGender;
+
+// use status type
+export type TUserStatus = keyof typeof userStatus;
 
 // user type 
 export type TUser = {
     name: string;
     email: string;
     password: string;
-    gender: userGender;
-    userRole?: userRole;
+    gender: TUserGender;
+    userRole?: TUserRole;
+    userStatus?: TUserStatus;
     isDeleted?: boolean;
 };
