@@ -11,13 +11,16 @@ export const createToken = (
     expiresIn: number,
 ) => {
     try {
-        return jwt.sign(jwtPayload, secret, {
-            expiresIn,
-          });
+        const token = jwt.sign(jwtPayload, secret, {
+            expiresIn: expiresIn,
+            algorithm: 'HS512',
+        });
+        return token;
     } catch (error) {
-        sendError(400, "Token generation failed");
+        sendError(400, 'Token generation failed');
     }
 };
+
 
 
 

@@ -33,13 +33,17 @@ const loginUserIntoDb = async (payload: TLogin) => {
             userId: result._id,
             userRole: result.userRole,
         };
+
+        const name = result?.name;
     
         const accessToken = createToken(jwtPayload, envFile.accessTokenSecret, envFile.accessTokenExpire);
         const refreshToken = createToken(jwtPayload, envFile.accessTokenSecret, envFile.accessTokenExpire);
+
     
         return {
             accessToken,
-            refreshToken
+            refreshToken,
+            name,
         };
     }
 
