@@ -1,7 +1,7 @@
 
 // all the imports here
 import { sendError } from "../../errors/appError";
-import { userRole } from "./user.constant";
+import { userRole, userStatus } from "./user.constant";
 import { userModel } from "./user.model";
 import { TUser } from "./user.type";
 
@@ -9,7 +9,7 @@ import { TUser } from "./user.type";
 // create user into db
 const createUserIntoDb = async (payload: TUser) => {
     // set user role to user
-    const newPayload = { ...payload, userRole: userRole.user };
+    const newPayload = { ...payload, userRole: userRole.user, userStatus: userStatus.active };
 
     // create user
     const result = await userModel.create(newPayload);
