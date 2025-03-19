@@ -26,6 +26,30 @@ const createUserIntoDb = async (payload: TUser) => {
 };
 
 
+// get user from db as get me route
+const getUserFromDb = async (payload: string) => {
+
+    // find the user
+    const result = await userModel.findOne({ email: payload }).select('-password');
+
+    // if user not found
+    if (!result) {
+        sendError(404, 'requested user not found!!!');
+    }
+
+    // if user is deleted
+    if (result?.isDeleted) {
+        sendError(400, 'user is allready deleted.');
+    }
+
+    // is user is blocked
+    if (result?.userStatus === userStatus.blocked) {
+        sendError(400, 'user is blocked.');
+    }
+
+    return result;
+};
+
 // update user into db
 const updateUserIntoDb = async (payload: Partial<TUser>) => {
     // set user role to user
@@ -92,6 +116,7 @@ const deleteAdminIntoDb = async (payload: string) => {
 // all the user services
 export const userServices = {
     createUserIntoDb,
+    getUserFromDb,
     createAdminIntoDb,
     updateUserIntoDb,
     updateAdminIntoDb,

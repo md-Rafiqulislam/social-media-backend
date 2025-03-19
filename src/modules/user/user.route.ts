@@ -7,6 +7,9 @@ const router = createRotuer();
 // create user
 router.post('/create-user', userControllers.createUser);
 
+// get me route for get the user
+router.get('/get-me', userControllers.getUser);
+
 // update user
 router.patch('/update-user', userControllers.updateUser);
 

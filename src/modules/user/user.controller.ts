@@ -18,6 +18,19 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 
+// get user get me route
+const getUser = catchAsync(async (req, res) => {
+    const { email } = req.body;
+    const result = await userServices.getUserFromDb(email);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'user retrived successfuly.',
+        data: result,
+    });
+});
+
 // update user
 const updateUser = catchAsync(async (req, res) => {
     const result = await userServices.updateUserIntoDb(req.body);
@@ -87,6 +100,7 @@ const deleteAdmin = catchAsync(async (req, res) => {
 // all the user controllers
 export const userControllers = {
     createUser,
+    getUser,
     createAdmin,
     updateUser,
     updateAdmin,
