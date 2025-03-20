@@ -8,9 +8,15 @@ import { userGender, userRole, userStatus } from "./user.constant"; // user role
 
 // user model schema
 const useerSchema = new Schema<TUser>({
-    name: {
+    firstName: {
         type: String,
         required: [true, 'user name is required.'],
+        trim: true,
+        minlength: [2, 'Name must be at least 2 characters long.'],
+        maxlength: [50, 'Name cannot exceed 50 characters.'],
+    },
+    lastName: {
+        type: String,
         trim: true,
         minlength: [2, 'Name must be at least 2 characters long.'],
         maxlength: [50, 'Name cannot exceed 50 characters.'],

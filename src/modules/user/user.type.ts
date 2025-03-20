@@ -13,7 +13,8 @@ export type TUserStatus = keyof typeof userStatus;
 
 // user type 
 export type TUser = {
-    name: string;
+    firstName: string;
+    lastName?: string;
     email: string;
     password: string;
     gender: TUserGender;
