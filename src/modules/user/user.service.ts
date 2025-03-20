@@ -12,7 +12,7 @@ const createUserIntoDb = async (payload: TUser) => {
     const newPayload = { ...payload, userRole: userRole.user, userStatus: userStatus.active };
 
     // check all the data is given
-    if (newPayload?.email || newPayload?.firstName || newPayload?.gender || newPayload?.password) {
+    if (!newPayload?.email || !newPayload?.firstName || !newPayload?.gender || !newPayload?.password) {
         sendError(404, 'All the user information is not given!!!');
     }
 
