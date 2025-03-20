@@ -1,11 +1,17 @@
+import { validateRequest } from "../../middlewares/zodValidation";
 import { createRotuer } from "../../utils/createRouter";
 import { userControllers } from "./user.controller";
+import { userValidationSchema } from "./user.validation";
 
 // create a router
 const router = createRotuer();
 
 // create user
-router.post('/create-user', userControllers.createUser);
+router.post(
+    '/create-user',
+    validateRequest(userValidationSchema.createUserValidationSchema),
+    userControllers.createUser
+);
 
 // get me route for get the user
 router.get('/get-me', userControllers.getUser);
