@@ -7,6 +7,9 @@ import { authServices } from "./auth.service";
 
 // log in user
 const loginUser = catchAsync(async (req, res) => {
+
+    console.log(req.body);
+
     const result = await authServices.loginUserIntoDb(req.body);
 
     // send response to the client

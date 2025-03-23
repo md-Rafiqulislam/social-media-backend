@@ -11,7 +11,11 @@ const app: Application = express();
 
 // all the parsers
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+
+    credentials: true,
+}));
 
 // application routes
 app.use('/api/social-media', applicationRouetes);
