@@ -6,6 +6,8 @@ import { sendError } from "../../errors/appError";
 import { userModel } from "../user/user.model";
 import { TJwtPayload, TLogin } from "./auth.type";
 import { createToken } from "./auth.utils";
+import { userStatus } from "../user/user.constant";
+import { checkUserIsValid } from "./auth.subService";
 
 
 // login user into db
@@ -36,11 +38,11 @@ const loginUserIntoDb = async (payload: TLogin) => {
     //     };
 
     //     const name = result?.name;
-    
+
     //     const accessToken = createToken(jwtPayload, envFile.accessTokenSecret, envFile.accessTokenExpire);
     //     const refreshToken = createToken(jwtPayload, envFile.accessTokenSecret, envFile.accessTokenExpire);
 
-    
+
     //     return {
     //         accessToken,
     //         refreshToken,
@@ -48,9 +50,27 @@ const loginUserIntoDb = async (payload: TLogin) => {
     //     };
     // }
 
-    const user = await userModel.findOne({email: payload.email});
-    if (!user) {
-        sendError(HttpStatus.NOT_FOUND, 'user not found!');
+    const user = await userModel.findOne({ email: payload.email });
+    
+    // if (!user) {
+    //     sendError(HttpStatus.NOT_FOUND, 'user not found!');
+    // }
+
+    // if (user?.isDeleted) {
+    //     sendError(HttpStatus.FORBIDDEN, 'This User is deleted.');
+    // }
+
+    // if (user?.userStatus === userStatus.blocked) {
+    //     sendError(HttpStatus.FORBIDDEN, 'This User is Blocked.');
+    // }
+
+    const checkedUser = checkUserIsValid(user);
+
+
+    if (checkedUser) {
+        if (user?.password !== payload.password) {
+            sendError(HttpStatus.FORBIDDEN, 'You are unauthorized. Invalid password!!');
+        }
     }
 
     return {};

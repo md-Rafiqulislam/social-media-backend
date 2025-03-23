@@ -22,9 +22,20 @@ export const createToken = (
 };
 
 
-
-
 // verify token
 export const verifyToken = (token: string, secret: string) => {
     return jwt.verify(token, secret) as JwtPayload
 }
+
+
+// password matching function
+export const checkedPasswordMatched = (payloadPassword: string, userPassword: string) => {
+    let isMatched: boolean = false;
+    if (payloadPassword === userPassword) {
+        isMatched = true;
+    } else {
+        isMatched = false;
+    }
+
+    return isMatched;
+};
