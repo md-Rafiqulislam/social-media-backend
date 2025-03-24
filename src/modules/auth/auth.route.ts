@@ -15,5 +15,12 @@ router.post(
     authControllers.loginUser
 );
 
+// get access token
+router.post(
+    '/get-access-token',
+    validateRequest(authValidationSchema.refreshTokenValidationSchema),
+    authControllers.getAccessToken
+);
+
 // export all the auth routes
 export const authRoutes = router;
