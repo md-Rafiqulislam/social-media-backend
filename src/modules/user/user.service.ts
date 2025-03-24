@@ -18,10 +18,10 @@ const createUserIntoDb = async (payload: TUser) => {
 
     // create user
     const result = await userModel.create(newPayload);
-    const { firstName, email } = result;
+
+    const name = result?.firstName + ' ' + (result?.lastName ?? '');
     return {
-        firstName,
-        email,
+        name,
     };
 };
 

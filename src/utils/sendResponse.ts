@@ -2,16 +2,16 @@ import { Response } from "express";
 
 // type for response
 type TResponse<T> = {
-    success: boolean;
+    success?: boolean;
     statusCode: number;
-    message?: string;
+    message: string;
     data?: T;
 };
 
 // function for send response
 export const sendResponse = <T>(res: Response, data: TResponse<T>) => {
     res.status(data?.statusCode).json({
-        success: data?.success,
+        success: data?.success || true,
         statusCode: data?.statusCode,
         message: data?.message,
         data: data?.data,

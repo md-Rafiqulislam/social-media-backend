@@ -1,5 +1,6 @@
 
 // all the imports here
+import { HttpStatus } from "http-status-ts";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { userServices } from "./user.service";
@@ -10,7 +11,7 @@ const createUser = catchAsync(async (req, res) => {
 
     // send response to the client
     sendResponse(res, {
-        statusCode: 201,
+        statusCode: HttpStatus.CREATED,
         success: true,
         message: 'User created successfully.',
         data: result,

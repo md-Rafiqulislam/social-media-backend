@@ -14,7 +14,7 @@ export const createToken = (
     try {
         const token = jwt.sign(jwtPayload, secret, {
             // expiresIn: expiresIn,
-            expiresIn: '1d',
+            expiresIn: expiresIn,
             algorithm: 'HS512',
         });
         return token;
