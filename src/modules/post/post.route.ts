@@ -18,5 +18,11 @@ router.post(
 // update post
 router.post('/update-post/:postId', postControllers.updatePost);
 
+// delete post
+router.delete(
+    '/delete-post/:postId',
+    postControllers.deletePost,
+);
+
 // export post routes
 export const postRoutes = router;
