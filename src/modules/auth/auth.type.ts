@@ -8,9 +8,9 @@ export type TLogin = {
     password: string;
 };
 
-
 // jwt payload type
 export type TJwtPayload = {
     userId: Types.ObjectId;
+    email: string;
     userRole: any;
 };

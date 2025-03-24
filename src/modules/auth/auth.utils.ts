@@ -1,22 +1,20 @@
 
 // all the imports here
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { sendError } from '../../errors/appError';
 import { TJwtPayload } from './auth.type';
+import bcrypt from 'bcrypt';
 
 // token creation function
 export const createToken = (
     jwtPayload: TJwtPayload,
     secret: string,
-    // expiresIn: number,
-    expiresIn: string,
+    expiresIn: number,
 ) => {
+
+
     try {
-        const token = jwt.sign(jwtPayload, secret, {
-            // expiresIn: expiresIn,
-            expiresIn: expiresIn,
-            algorithm: 'HS512',
-        });
+        const token = jwt.sign(jwtPayload, secret, { expiresIn });
         return token;
     } catch (error) {
         sendError(400, 'Token generation failed');
@@ -24,20 +22,7 @@ export const createToken = (
 };
 
 
-// // verify token
-// export const verifyToken = (token: string, secret: string) => {
-//     return jwt.verify(token, secret) as JwtPayload
-// }
-
-
 // password matching function
-export const checkedPasswordMatched = (payloadPassword: string, userPassword: string) => {
-    let isMatched: boolean = false;
-    if (payloadPassword === userPassword) {
-        isMatched = true;
-    } else {
-        isMatched = false;
-    }
-
-    return isMatched;
+export const checkedPasswordMatched = async (payloadPassword: string, userPassword: string) => {
+    return await bcrypt.compare(payloadPassword, userPassword);
 };

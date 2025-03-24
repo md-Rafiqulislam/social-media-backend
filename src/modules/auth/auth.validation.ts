@@ -10,7 +10,6 @@ const loginValidationSchema = z.object({
     }),
 });
 
-
 // all the auth validation schema
 export const authValidationSchema = {
     loginValidationSchema,

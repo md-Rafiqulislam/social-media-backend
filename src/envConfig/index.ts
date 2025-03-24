@@ -13,7 +13,7 @@ export const envFile = {
     nEnv: process.env.NODE_ENV,
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET as string,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET as string,
-    accessTokenExpire: String(process.env.ACCESS_TOKEN_EXPIRE_IN),
-    refreshTokenExpire: String(process.env.REFRESH_TOKEN_EXPIRE_IN),
+    accessTokenExpire: Number(process.env.ACCESS_TOKEN_EXPIRE_IN),
+    refreshTokenExpire: Number(process.env.REFRESH_TOKEN_EXPIRE_IN),
     saltRounds: process.env.SALT_ROUNDS,
 };
