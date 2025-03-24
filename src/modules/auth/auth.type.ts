@@ -12,5 +12,5 @@ export type TLogin = {
 export type TJwtPayload = {
     userId: Types.ObjectId;
     email: string;
-    userRole: any;
+    userRole: string;
 };
