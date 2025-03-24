@@ -8,11 +8,13 @@ import { TJwtPayload } from './auth.type';
 export const createToken = (
     jwtPayload: TJwtPayload,
     secret: string,
-    expiresIn: number,
+    // expiresIn: number,
+    expiresIn: string,
 ) => {
     try {
         const token = jwt.sign(jwtPayload, secret, {
-            expiresIn: expiresIn,
+            // expiresIn: expiresIn,
+            expiresIn: '1d',
             algorithm: 'HS512',
         });
         return token;
@@ -22,10 +24,10 @@ export const createToken = (
 };
 
 
-// verify token
-export const verifyToken = (token: string, secret: string) => {
-    return jwt.verify(token, secret) as JwtPayload
-}
+// // verify token
+// export const verifyToken = (token: string, secret: string) => {
+//     return jwt.verify(token, secret) as JwtPayload
+// }
 
 
 // password matching function

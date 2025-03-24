@@ -5,6 +5,7 @@ import cors from 'cors';
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
 import { applicationRouetes } from "./routes";
+import cookieParser from 'cookie-parser';
 
 // create an express application
 const app: Application = express();
@@ -13,9 +14,10 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-
     credentials: true,
 }));
+app.use(cookieParser())
+
 
 // application routes
 app.use('/api/social-media', applicationRouetes);

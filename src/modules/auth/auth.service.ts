@@ -51,7 +51,7 @@ const loginUserIntoDb = async (payload: TLogin) => {
     // }
 
     const user = await userModel.findOne({ email: payload.email });
-    
+
     // if (!user) {
     //     sendError(HttpStatus.NOT_FOUND, 'user not found!');
     // }
@@ -67,13 +67,21 @@ const loginUserIntoDb = async (payload: TLogin) => {
     const checkedUser = checkUserIsValid(user);
 
 
-    if (checkedUser) {
-        if (user?.password !== payload.password) {
-            sendError(HttpStatus.FORBIDDEN, 'You are unauthorized. Invalid password!!');
-        }
+    if (!checkedUser) {
+        return;
     }
 
-    return {};
+    if (user?.password !== payload.password) {
+        sendError(HttpStatus.FORBIDDEN, 'You are unauthorized. Invalid password!!');
+    }
+
+    const jwtPayload = {
+        email: user?.email,
+        userRole: user?.userRole,
+    }
+
+    return {
+    };
 
 };
 
