@@ -2,6 +2,7 @@
 // all the imports here
 import { model, Schema } from "mongoose";
 import { TPost } from "./post.type";
+import { visibilityOptions } from "./post.constant";
 
 // post schema
 const postSchema = new Schema<TPost>({
@@ -15,19 +16,23 @@ const postSchema = new Schema<TPost>({
         required: [true, 'post description is required.'],
         trim: true,
     },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'UserId is required.'],
+    },
     isFavourite: {
         type: Boolean,
         default: false,
+    },
+    visibility: {
+        type: String,
+        default: visibilityOptions.public,
     },
     isDeleted: {
         type: String,
         default: false,
     },
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'UserId is required.'],
-    }
 }, {
     timestamps: true,
 });
