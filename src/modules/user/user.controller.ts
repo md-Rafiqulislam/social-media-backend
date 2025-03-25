@@ -22,7 +22,7 @@ const createUser = catchAsync(async (req, res) => {
 
 // get user get me route
 const getUser = catchAsync(async (req, res) => {
-    
+
     // get the token
     const token = req.headers.authorization;
 
@@ -41,15 +41,24 @@ const getUser = catchAsync(async (req, res) => {
     });
 });
 
+
 // update user
 const updateUser = catchAsync(async (req, res) => {
-    const result = await userServices.updateUserIntoDb(req.body);
+
+    // get the token
+    const token = req.headers.authorization;
+    
+    // check the token
+    if (!token) {
+        sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
+    }
+
+    const result = await userServices.updateUserIntoDb(token as string, req.body);
 
     // send response to the client
     sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: 'user updated successfully.',
+        statusCode: HttpStatus.OK,
+        message: 'User updated successfully.',
         data: result,
     });
 });

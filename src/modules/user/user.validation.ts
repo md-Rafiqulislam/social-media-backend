@@ -31,7 +31,31 @@ const createUserValidationSchema = z.object({
     }),
 });
 
+
+// update user validation schema
+const updateUserValidationSchema = z.object({
+    body: z.object({
+        firstName: z.string()
+            .trim()
+            .min(2, { message: 'Name must be at least 2 characters long.' })
+            .max(50, { message: 'Name cannot exceed 50 characters.' }).optional(),
+        lastName: z.string()
+            .trim()
+            .min(2, { message: 'Name must be at least 2 characters long.' })
+            .max(50, { message: 'Name cannot exceed 50 characters.' })
+            .optional(),
+        email: z.string()
+            .trim()
+            .email({ message: 'Please use a valid email address.' }).optional(),
+        userRole: z.enum(Object.values(userRole) as [userRole, ...userRole[]]).default(userRole.user).optional(),
+        userStatus: z.enum(Object.values(userStatus) as [userStatus, ...userStatus[]]).default(userStatus.active).optional(),
+        isDeleted: z.boolean().default(false).optional(),
+    }),
+});
+
+
 // export all the user validation schema
 export const userValidationSchema = {
     createUserValidationSchema,
+    updateUserValidationSchema,
 };

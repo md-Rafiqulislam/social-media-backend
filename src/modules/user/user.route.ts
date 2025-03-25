@@ -23,7 +23,11 @@ router.get(
 );
 
 // update user
-router.patch('/update-user', userControllers.updateUser);
+router.patch(
+    '/update-user',
+    validateRequest(userValidationSchema.updateUserValidationSchema),
+    userControllers.updateUser
+);
 
 // delete user
 router.delete('/delete-user', userControllers.deleteUser);
