@@ -5,6 +5,7 @@ import { sendError } from "../../errors/appError";
 import { catchAsync } from "../../utils/catchAsync";
 import { pageServices } from "./page.service";
 import { sendResponse } from "../../utils/sendResponse";
+import { postServices } from "../post/post.service";
 
 
 // create page 
@@ -33,11 +34,39 @@ const createpage = catchAsync(async (req, res) => {
 
 
 // upadate page
-const updatePage = async () => { };
+const updatePage = catchAsync(async (req, res) => {
+    const { pageId } = req.params;
+    if (!pageId) {
+        sendError(HttpStatus.NOT_FOUND, 'Page Id is not given.');
+    }
+
+    const result = await pageServices.updatePageIntoDb(pageId, req.body);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'Post is updated successfully',
+        data: result,
+    });
+});
 
 
 // delete page
-const deletePage = async () => { };
+const deletePage = catchAsync(async (req, res) => {
+    const { pageId } = req.params;
+    if (!pageId) {
+        sendError(HttpStatus.NOT_FOUND, 'Page Id is not given.');
+    }
+
+    await postServices.deletePostFromDb(pageId);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'Page deleted successfully.',
+        data: null,
+    });
+});
 
 
 // all the page controllers

@@ -13,5 +13,17 @@ router.post(
     pageControllers.createpage
 );
 
+// update page
+router.patch(
+    '/update-page/:pageId',
+    pageControllers.updatePage,
+);
+
+// delete page
+router.delete(
+    '/delete-page/:pageId',
+    pageControllers.deletePage,
+);
+
 // export all the page routes
 export const pageRoutes = router;
