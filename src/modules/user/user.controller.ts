@@ -6,6 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { userServices } from "./user.service";
 import { sendError } from "../../errors/appError";
 
+
 // create user
 const createUser = catchAsync(async (req, res) => {
     const result = await userServices.createUserIntoDb(req.body);
@@ -63,6 +64,7 @@ const updateUser = catchAsync(async (req, res) => {
     });
 });
 
+
 // delete user
 const deleteUser = catchAsync(async (req, res) => {
 
@@ -84,6 +86,7 @@ const deleteUser = catchAsync(async (req, res) => {
     });
 });
 
+
 // create admin
 const createAdmin = catchAsync(async (req, res) => {
     const result = await userServices.createAdminIntoDb(req.body);
@@ -96,32 +99,6 @@ const createAdmin = catchAsync(async (req, res) => {
     });
 });
 
-// update admin
-const updateAdmin = catchAsync(async (req, res) => {
-    const result = await userServices.updateAdminIntoDb(req.body);
-
-    // send response to the client
-    sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: 'admin updated successfully.',
-        data: result,
-    });
-});
-
-
-// delete admin
-const deleteAdmin = catchAsync(async (req, res) => {
-    const result = await userServices.deleteAdminIntoDb(req.body);
-
-    // send response to the client
-    sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: 'admin deleted successfully.',
-        data: null,
-    });
-});
 
 // all the user controllers
 export const userControllers = {
@@ -129,7 +106,5 @@ export const userControllers = {
     getUser,
     createAdmin,
     updateUser,
-    updateAdmin,
     deleteUser,
-    deleteAdmin,
 };

@@ -17,6 +17,7 @@ router.post(
     userControllers.createUser
 );
 
+
 // get me route for get the user
 router.get(
     '/get-me',
@@ -24,12 +25,15 @@ router.get(
     userControllers.getUser,
 );
 
+
 // update user
 router.patch(
     '/update-user',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
     validateRequest(userValidationSchema.updateUserValidationSchema),
     userControllers.updateUser
 );
+
 
 // delete user
 router.delete(
@@ -38,6 +42,7 @@ router.delete(
     userControllers.deleteUser
 );
 
+
 // create admin
 router.post(
     '/create-admin',
@@ -45,11 +50,6 @@ router.post(
     userControllers.createAdmin
 );
 
-// update admin
-router.patch('/update-admin', userControllers.updateAdmin);
-
-// delete admin
-router.delete('/delete-admin', userControllers.deleteAdmin);
 
 // export user routes
 export const userRoutes = router;

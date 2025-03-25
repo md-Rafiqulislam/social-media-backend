@@ -128,34 +128,11 @@ const createAdminIntoDb = async (payload: TUser) => {
 };
 
 
-// upadate admin into db
-const updateAdminIntoDb = async (payload: TUser) => {
-    // set user role to admin
-    const newPayload = { ...payload, userRole: userRole.admin };
-    if (!newPayload?.email) {
-        sendError(404, 'user email address is required.');
-    }
-    // update admin
-    const result = await userModel.findOneAndUpdate({ email: newPayload?.email }, newPayload, { new: true });
-    return result;
-};
-
-
-// delete admin into db
-const deleteAdminIntoDb = async (payload: string) => {
-
-    // delete admin
-    const result = await userModel.findOneAndUpdate({ email: payload }, { isDeleted: true }, { new: true });
-    return result;
-};
-
 // all the user services
 export const userServices = {
     createUserIntoDb,
     getUserFromDb,
     createAdminIntoDb,
     updateUserIntoDb,
-    updateAdminIntoDb,
     deleteUserIntoDb,
-    deleteAdminIntoDb,
 };
