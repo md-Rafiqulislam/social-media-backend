@@ -5,6 +5,9 @@ import { sendError } from "../../errors/appError";
 import { userRole, userStatus } from "./user.constant";
 import { userModel } from "./user.model";
 import { TUser } from "./user.type";
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { envFile } from "../../envConfig";
+import { checkUserIsValid } from "../auth/auth.subService";
 
 
 // create user into db
@@ -30,25 +33,22 @@ const createUserIntoDb = async (payload: TUser) => {
 // get user from db as get me route
 const getUserFromDb = async (payload: string) => {
 
+    const decoded = jwt.verify(payload, envFile.accessTokenSecret);
+
+    const { email } = decoded as JwtPayload;
+
     // find the user
-    const result = await userModel.findOne({ email: payload }).select('-password');
+    const user = await userModel.findOne({ email }).select('-password');
 
-    // if user not found
-    if (!result) {
-        sendError(404, 'requested user not found!!!');
+    const checkedUser = checkUserIsValid(user);
+    
+    // check the user is valid
+    if(!checkedUser) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
     }
 
-    // if user is deleted
-    if (result?.isDeleted) {
-        sendError(400, 'user is allready deleted.');
-    }
-
-    // is user is blocked
-    if (result?.userStatus === userStatus.blocked) {
-        sendError(400, 'user is blocked.');
-    }
-
-    return result;
+    // return the user
+    return user;
 };
 
 // update user into db

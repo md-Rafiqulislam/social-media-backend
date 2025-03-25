@@ -1,5 +1,7 @@
+import { auth } from "../../middlewares/auth";
 import { validateRequest } from "../../middlewares/zodValidation";
 import { createRotuer } from "../../utils/createRouter";
+import { userRole } from "./user.constant";
 import { userControllers } from "./user.controller";
 import { userValidationSchema } from "./user.validation";
 
@@ -14,7 +16,11 @@ router.post(
 );
 
 // get me route for get the user
-router.get('/get-me', userControllers.getUser);
+router.get(
+    '/get-me',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    userControllers.getUser,
+);
 
 // update user
 router.patch('/update-user', userControllers.updateUser);

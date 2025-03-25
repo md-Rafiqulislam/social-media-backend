@@ -4,6 +4,7 @@ import { HttpStatus } from "http-status-ts";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { userServices } from "./user.service";
+import { sendError } from "../../errors/appError";
 
 // create user
 const createUser = catchAsync(async (req, res) => {
@@ -21,13 +22,21 @@ const createUser = catchAsync(async (req, res) => {
 
 // get user get me route
 const getUser = catchAsync(async (req, res) => {
-    const { email } = req.body;
-    const result = await userServices.getUserFromDb(email);
+    
+    // get the token
+    const token = req.headers.authorization;
 
+    // check the token is exists
+    if (!token) {
+        sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
+    }
+
+    const result = await userServices.getUserFromDb(token as string);
+
+    // send the response to the client
     sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: 'user retrived successfuly.',
+        statusCode: HttpStatus.OK,
+        message: 'User retrived successfuly.',
         data: result,
     });
 });
