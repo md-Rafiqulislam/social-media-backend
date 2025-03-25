@@ -1,6 +1,7 @@
 
 // all the imports here
 import { authRoutes } from "../modules/auth/auth.route";
+import { commentRoutes } from "../modules/comment/comment.route";
 import { pageRoutes } from "../modules/page/page.route";
 import { postRoutes } from "../modules/post/post.route";
 import { userRoutes } from "../modules/user/user.route";
@@ -27,6 +28,10 @@ const modulesRoute: TRoute[] = [
     {
         path: '/page',
         route: pageRoutes,
+    },
+    {
+        path: '/comment',
+        route: commentRoutes,
     }
 ];
 
