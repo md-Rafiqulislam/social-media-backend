@@ -1,5 +1,6 @@
 
 // all the imports here
+import { HttpStatus } from "http-status-ts";
 import { sendError } from "../../errors/appError";
 import { userRole, userStatus } from "./user.constant";
 import { userModel } from "./user.model";
@@ -9,22 +10,22 @@ import { TUser } from "./user.type";
 // create user into db
 const createUserIntoDb = async (payload: TUser) => {
     // set user role to user
-    const newPayload = { ...payload, userRole: userRole.user, userStatus: userStatus.active };
+    const newPayload = { ...payload, userRole: userRole.user, userStatus: userStatus.active, isDeleted: false };
 
     // check all the data is given
     if (!newPayload?.email || !newPayload?.firstName || !newPayload?.gender || !newPayload?.password) {
-        sendError(404, 'All the user information is not given!!!');
+        sendError(HttpStatus.BAD_REQUEST, 'All the user information is not given!!!');
     }
 
     // create user
     const result = await userModel.create(newPayload);
 
+    // get the full name for return
     const name = result?.firstName + ' ' + (result?.lastName ?? '');
     return {
-        name,
+        name: name.trim(),
     };
 };
-
 
 // get user from db as get me route
 const getUserFromDb = async (payload: string) => {
@@ -82,12 +83,22 @@ const deleteUserIntoDb = async (payload: string) => {
 
 // create admin into db
 const createAdminIntoDb = async (payload: TUser) => {
-    // set user role to user
-    const newPayload = { ...payload, userRole: userRole.admin };
+    // set user role to admin
+    const newPayload = { ...payload, userRole: userRole.admin, userStatus: userStatus.active, isDeleted: false };
+
+    // check all the data is given
+    if (!newPayload?.email || !newPayload?.firstName || !newPayload?.gender || !newPayload?.password) {
+        sendError(404, 'All the user information is not given!!!');
+    }
 
     // create admin
     const result = await userModel.create(newPayload);
-    return result;
+
+    // get the full name to return
+    const name = result?.firstName + ' ' + (result?.lastName ?? '');
+    return {
+        name: name.trim(),
+    };
 };
 
 
@@ -102,7 +113,6 @@ const updateAdminIntoDb = async (payload: TUser) => {
     const result = await userModel.findOneAndUpdate({ email: newPayload?.email }, newPayload, { new: true });
     return result;
 };
-
 
 
 // delete admin into db

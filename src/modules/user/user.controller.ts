@@ -64,9 +64,8 @@ const createAdmin = catchAsync(async (req, res) => {
 
     // send response to the client
     sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: 'admin created successfully.',
+        statusCode: HttpStatus.CREATED,
+        message: 'Admin Created successfully.',
         data: result,
     });
 });

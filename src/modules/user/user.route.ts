@@ -23,7 +23,11 @@ router.patch('/update-user', userControllers.updateUser);
 router.delete('/delete-user', userControllers.deleteUser);
 
 // create admin
-router.post('/create-admin', userControllers.createAdmin);
+router.post(
+    '/create-admin',
+    validateRequest(userValidationSchema.createUserValidationSchema),
+    userControllers.createAdmin
+);
 
 // update admin
 router.patch('/update-admin', userControllers.updateAdmin);
