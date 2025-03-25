@@ -4,7 +4,8 @@ import { HttpStatus } from "http-status-ts";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { postServices } from "./post.service";
-
+`
+`
 // create post
 const createPost = catchAsync(async (req, res) => {
     const result = await postServices.createPostIntoDb(req.body);
@@ -24,9 +25,8 @@ const updatePost = catchAsync(async (req, res) => {
 
     // send response to the client
     sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: 'post updated successfully.',
+        statusCode: HttpStatus.OK,
+        message: 'Post updated successfully.',
         data: result,
     });
 });

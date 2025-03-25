@@ -1,3 +1,5 @@
+
+// all the imports here
 import { HttpStatus } from "http-status-ts";
 import { sendError } from "../../errors/appError";
 import { TPost } from "./post.type";

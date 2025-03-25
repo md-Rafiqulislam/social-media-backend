@@ -16,7 +16,11 @@ router.post(
 );
 
 // update post
-router.post('/update-post/:postId', postControllers.updatePost);
+router.post(
+    '/update-post/:postId',
+    validateRequest(postValidationSchema.updatePostValidationSchema),
+    postControllers.updatePost
+);
 
 // delete post
 router.delete(

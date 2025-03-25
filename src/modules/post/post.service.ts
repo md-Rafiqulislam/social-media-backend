@@ -24,28 +24,38 @@ const updatePostIntoDb = async (postId: string, payload: Partial<TPost>) => {
 
     // check the post is exists
     const post = await postModel.findOne({ _id: postId });
-    if (!post) {
-        sendError(404, 'post can not found!!!');
+
+    // check the is valid
+    const checkedPost = checkPostIsValid(post);
+    if (!checkedPost) {
+        sendError(HttpStatus.FORBIDDEN, 'Post can not updated.');
     }
 
+    // update payload
+    const { isDeleted, userId, ...newPayload } = { ...payload };
+
     // update post
-    const result = await postModel.findOneAndUpdate({ _id: postId }, payload, { new: true });
+    const result = await postModel.findOneAndUpdate({ _id: postId }, newPayload, { new: true });
 
     // check if post is updated or not
     if (!result) {
-        sendError(500, 'post can not updated!!!');
+        sendError(HttpStatus.BAD_REQUEST, 'post can not updated!!!');
     }
 
     return result;
 };
 
+
 // delete post in the db
 const deletePostFromDb = async (payload: string) => {
+
+    // get the post
     const post = await postModel.findById({ _id: payload });
 
+    // check the post is valid
     const checkedPost = checkPostIsValid(post);
     if (!checkedPost) {
-        sendError(HttpStatus.FORBIDDEN, 'Post is not valid.');
+        sendError(HttpStatus.FORBIDDEN, 'Post can not deleted.');
     }
 
     await postModel.findByIdAndUpdate({ _id: payload }, { isDeleted: true }, { new: true });
