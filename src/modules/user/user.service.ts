@@ -77,7 +77,7 @@ const updateUserIntoDb = async (token: string, payload: Partial<TUser>) => {
     }
 
     // set user update data to user
-    const {isDeleted, userStatus, userRole, password, ...newPayload} = { ...payload };
+    const { isDeleted, userStatus, userRole, password, ...newPayload } = { ...payload };
 
     // update user
     const result = await userModel.findOneAndUpdate({ email, }, newPayload, { new: true }).select('-password');
@@ -87,8 +87,23 @@ const updateUserIntoDb = async (token: string, payload: Partial<TUser>) => {
 
 // delete user into db
 const deleteUserIntoDb = async (payload: string) => {
-    const result = await userModel.findOneAndUpdate({ email: payload }, { isDeleted: true }, { new: true });
-    return result;
+
+    const decoded = jwt.verify(payload, envFile.accessTokenSecret);
+    const { userId, email } = decoded as JwtPayload;
+
+    const user = await userModel.findOne({ email }).select('-password');
+
+    const checkedUser = checkUserIsValid(user);
+    if (!checkedUser) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    if (String(user?._id) !== userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    await userModel.findOneAndUpdate({ email }, { isDeleted: true }, { new: true });
+    return null;
 };
 
 

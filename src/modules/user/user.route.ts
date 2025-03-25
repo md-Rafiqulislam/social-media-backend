@@ -1,3 +1,5 @@
+
+// all the imports here
 import { auth } from "../../middlewares/auth";
 import { validateRequest } from "../../middlewares/zodValidation";
 import { createRotuer } from "../../utils/createRouter";
@@ -30,7 +32,11 @@ router.patch(
 );
 
 // delete user
-router.delete('/delete-user', userControllers.deleteUser);
+router.delete(
+    '/delete-user',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    userControllers.deleteUser
+);
 
 // create admin
 router.post(

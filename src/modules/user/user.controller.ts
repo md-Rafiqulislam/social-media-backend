@@ -47,7 +47,7 @@ const updateUser = catchAsync(async (req, res) => {
 
     // get the token
     const token = req.headers.authorization;
-    
+
     // check the token
     if (!token) {
         sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
@@ -65,13 +65,21 @@ const updateUser = catchAsync(async (req, res) => {
 
 // delete user
 const deleteUser = catchAsync(async (req, res) => {
-    await userServices.deleteUserIntoDb(req.body);
+
+    // get token
+    const token = req.headers.authorization;
+
+    // check the token
+    if (!token) {
+        sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
+    }
+
+    await userServices.deleteUserIntoDb(token as string);
 
     // send response to the client
     sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: 'user deleted successfully.',
+        statusCode: HttpStatus.OK,
+        message: 'User deleted successfully.',
         data: null,
     });
 });
