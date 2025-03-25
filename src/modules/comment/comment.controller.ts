@@ -18,6 +18,7 @@ const createComment = catchAsync(async (req, res) => {
     });
 });
 
+
 // all the comment controllers
 export const commentControllers = {
     createComment,
