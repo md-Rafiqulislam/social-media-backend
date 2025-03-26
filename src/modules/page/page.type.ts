@@ -11,7 +11,7 @@ export type TPage = {
     title: string;
     description: string;
     pageType: string;
-    userId: Types.ObjectId;
+    user: Types.ObjectId;
     visibility?: TPageVisibility;
     isFavourite?: boolean;
     isDeleted?: boolean;

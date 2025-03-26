@@ -3,26 +3,12 @@
 import { HttpStatus } from "http-status-ts";
 import { sendError } from "../../errors/appError";
 import { TPage } from "./page.type";
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { envFile } from "../../envConfig";
-import { userModel } from "../user/user.model";
-import { checkUserIsValid } from "../auth/auth.subService";
 import { pageModel } from "./page.model";
 import { checkPageIsDeleted } from "./page.utils";
 
 
 // create page into db
-const createpageIntoDb = async (token: string, payload: TPage) => {
-    const decoded = jwt.verify(token, envFile.accessTokenSecret);
-    const { email } = decoded as JwtPayload;
-
-    const user = await userModel.findOne({ email });
-
-    const checkedUser = checkUserIsValid(user);
-
-    if (!checkedUser) {
-        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
-    }
+const createpageIntoDb = async (payload: TPage) => {
 
     const newPayload = { ...payload, isDeleted: false };
 

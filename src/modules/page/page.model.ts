@@ -17,7 +17,7 @@ const pageSchema = new Schema<TPage>({
         type: String,
         required: [true, 'Page Type is required.'],
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'User Id is required.'],

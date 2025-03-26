@@ -10,19 +10,13 @@ import { postServices } from "../post/post.service";
 
 // create page 
 const createpage = catchAsync(async (req, res) => {
-    const token = req.headers.authorization;
 
-    if (!token) {
-        sendError(HttpStatus.NOT_FOUND, 'Token Not Found.');
-    }
+    // check user and page info
+    if (req.user.userId !== req.body.user) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    };
 
-    const pageInfo = req.body;
-
-    if (!pageInfo || Object.keys(pageInfo).length === 0) {
-        sendError(HttpStatus.BAD_REQUEST, 'All the page information is not given.');
-    }
-
-    const result = await pageServices.createpageIntoDb(token as string, pageInfo);
+    const result = await pageServices.createpageIntoDb(req.body);
 
     // send response to the client
     sendResponse(res, {
