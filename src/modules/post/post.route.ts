@@ -18,11 +18,21 @@ router.post(
     postControllers.createPost
 );
 
+
 // get all posts
 router.get(
     '/all-post',
     postControllers.getAllPost,
 );
+
+
+// get post by user from db
+router.get(
+    '/all-post/:userId',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    postControllers.getAllPostByUser,
+);
+
 
 // update post
 router.patch(

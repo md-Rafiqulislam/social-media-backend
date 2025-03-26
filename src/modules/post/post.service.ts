@@ -38,6 +38,13 @@ const getAllPostFromDb = async () => {
 };
 
 
+// get all post by user from db
+const getAllPostByUserFromDb = async (user: JwtPayload, userId: string) => {
+    const posts = await postModel.find({user: userId, isDeleted: false});
+    return posts;
+};
+
+
 // upadate post into db
 const updatePostIntoDb = async (payloadUser: JwtPayload, postId: string, payload: Partial<TPost>) => {
 
@@ -95,6 +102,7 @@ const deletePostByUserFromDb = async (userPayload: JwtPayload, postId: string) =
 export const postServices = {
     createPostIntoDb,
     getAllPostFromDb,
+    getAllPostByUserFromDb,
     updatePostIntoDb,
     deletePostByUserFromDb,
 };

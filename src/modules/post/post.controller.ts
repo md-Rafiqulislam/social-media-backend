@@ -5,6 +5,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { postServices } from "./post.service";
 import { sendError } from "../../errors/appError";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // create post
@@ -36,6 +37,26 @@ const getAllPost = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: HttpStatus.OK,
         message: 'All post retrived successfully.',
+        data: result,
+    });
+});
+
+
+// get all posts by user
+const getAllPostByUser = catchAsync(async (req, res) => {
+
+    // check user and params
+    if (req.user.userId !== req.params.userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    // get posts
+    const result = await postServices.getAllPostByUserFromDb(req.user as JwtPayload, req.params.userId as string);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'All Posts retrieved successfully.',
         data: result,
     });
 });
@@ -85,6 +106,7 @@ const deletePostByUser = catchAsync(async (req, res) => {
 export const postControllers = {
     createPost,
     getAllPost,
+    getAllPostByUser,
     updatePost,
     deletePostByUser,
 };
