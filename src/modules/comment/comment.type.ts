@@ -7,5 +7,5 @@ export type TComment = {
     content: string;
     userId: Types.ObjectId;
     postId: Types.ObjectId;
-    isDelete?: boolean;
+    isDeleted?: boolean;
 };

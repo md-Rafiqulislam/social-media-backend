@@ -10,7 +10,7 @@ export type TVisibilityOptions = keyof typeof visibilityOptions;
 export type TPost = {
     postTitle: string;
     postDescription: string;
-    userId: Types.ObjectId;
+    user: Types.ObjectId;
     isFavourite?: boolean;
     visibility?: TVisibilityOptions;
     isDeleted?: boolean;

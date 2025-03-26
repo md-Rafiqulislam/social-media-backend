@@ -5,16 +5,24 @@ import { sendError } from "../../errors/appError";
 import { postModel } from "./post.model";
 import { TPost } from "./post.type";
 import { checkPostIsValid } from "./post.utils";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // create post into db
-const createPostIntoDb = async (payload: TPost) => {
+const createPostIntoDb = async (user: JwtPayload, payload: TPost) => {
+
+    const useridByUser = user.userId; // userId from user
+    const userIdByPayload = payload.user; // userId from payload
+
+    if (useridByUser !== userIdByPayload) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
 
     // set isDeleted false
     const newPayload = { ...payload, isDeleted: false };
 
     // create post
-    const result = await postModel.create(newPayload);
+    const result = (await postModel.create(newPayload));
     return result;
 };
 

@@ -21,7 +21,7 @@ const commentSchema = new Schema<TComment>({
         ref: 'Post',
         required: [true, 'Post Id is required.'],
     },
-    isDelete: {
+    isDeleted: {
         type: Boolean,
         default: false,
     }

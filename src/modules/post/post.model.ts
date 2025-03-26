@@ -16,7 +16,7 @@ const postSchema = new Schema<TPost>({
         required: [true, 'post description is required.'],
         trim: true,
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'UserId is required.'],

@@ -4,11 +4,19 @@ import { HttpStatus } from "http-status-ts";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { postServices } from "./post.service";
+import { sendError } from "../../errors/appError";
 `
 `
 // create post
 const createPost = catchAsync(async (req, res) => {
-    const result = await postServices.createPostIntoDb(req.body);
+
+    // get the user and check
+    const user = req.user;
+    if (!user) {
+        sendError(HttpStatus.NOT_FOUND, 'User not found.');
+    }
+
+    const result = await postServices.createPostIntoDb(user, req.body);
 
     // send response to the client
     sendResponse(res, {

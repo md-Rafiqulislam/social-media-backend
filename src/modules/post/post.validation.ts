@@ -8,7 +8,7 @@ const createPostValidationSchema = z.object({
     body: z.object({
         postTitle: z.string({ required_error: 'Post Title is required.' }).trim(),
         postDescription: z.string({ required_error: 'Post Description is required.' }).trim(),
-        userId: z.string({ required_error: 'User Id is required.' }),
+        user: z.string({ required_error: 'User Id is required.' }),
         isFavourite: z.boolean().default(false).optional(),
         visibility: z.string().default(visibilityOptions.public).optional(),
         isDeleted: z.boolean().default(false).optional(),
