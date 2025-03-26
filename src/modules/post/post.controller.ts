@@ -5,8 +5,8 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { postServices } from "./post.service";
 import { sendError } from "../../errors/appError";
-`
-`
+
+
 // create post
 const createPost = catchAsync(async (req, res) => {
 
@@ -22,6 +22,20 @@ const createPost = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: HttpStatus.CREATED,
         message: 'Post created successfully.',
+        data: result,
+    });
+});
+
+
+// get all post
+const getAllPost = catchAsync(async (req, res) => {
+    // console.log(req.path);
+    const result = await postServices.getAllPostFromDb();
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'All post retrived successfully.',
         data: result,
     });
 });
@@ -66,9 +80,11 @@ const deletePostByUser = catchAsync(async (req, res) => {
     });
 });
 
+
 // all the post controllers
 export const postControllers = {
     createPost,
+    getAllPost,
     updatePost,
     deletePostByUser,
 };

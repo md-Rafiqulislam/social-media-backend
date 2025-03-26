@@ -18,6 +18,12 @@ router.post(
     postControllers.createPost
 );
 
+// get all posts
+router.get(
+    '/all-post',
+    postControllers.getAllPost,
+);
+
 // update post
 router.patch(
     '/update-post/:postId',

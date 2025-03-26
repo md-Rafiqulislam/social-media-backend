@@ -6,6 +6,7 @@ import { postModel } from "./post.model";
 import { TPost } from "./post.type";
 import { checkPostIsValid } from "./post.utils";
 import { JwtPayload } from "jsonwebtoken";
+import { visibility } from "../page/page.constant";
 
 
 // create post into db
@@ -22,6 +23,16 @@ const createPostIntoDb = async (user: JwtPayload, payload: TPost) => {
     const result = await postModel.create(newPayload);
     if (!result) {
         sendError(HttpStatus.BAD_REQUEST, 'Post can not created.');
+    }
+    return result;
+};
+
+
+// get all the posts from db
+const getAllPostFromDb = async () => {
+    const result = await postModel.find({ isDeleted: false, visibility: visibility.public });
+    if (!result) {
+        sendError(HttpStatus.BAD_REQUEST, 'Posts can not retrieved successfully.');
     }
     return result;
 };
@@ -83,6 +94,7 @@ const deletePostByUserFromDb = async (userPayload: JwtPayload, postId: string) =
 // all the post services
 export const postServices = {
     createPostIntoDb,
+    getAllPostFromDb,
     updatePostIntoDb,
     deletePostByUserFromDb,
 };
