@@ -10,9 +10,9 @@ const createCommentValidationSchema = z.object({
             .trim()
             .min(1, { message: "Comment content cannot be empty." })
             .nonempty({ message: "Comment content is required." }),
-        userId: z.string({ required_error: 'User Id is required.' })
+        user: z.string({ required_error: 'User Id is required.' })
             .nonempty({ message: 'User id can not be empty.' }),
-        postId: z.string({ required_error: 'Post Id is required.' })
+        post: z.string({ required_error: 'Post Id is required.' })
             .nonempty({ message: 'Post Id can not be empty.' }),
         isDeleted: z.boolean().default(false).optional(),
     }),

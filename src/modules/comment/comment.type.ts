@@ -5,7 +5,7 @@ import { Types } from "mongoose";
 // comment type
 export type TComment = {
     content: string;
-    userId: Types.ObjectId;
-    postId: Types.ObjectId;
+    user: Types.ObjectId;
+    post: Types.ObjectId;
     isDeleted?: boolean;
 };

@@ -8,9 +8,20 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { envFile } from "../../envConfig";
 import { userModel } from "../user/user.model";
 import { checkUserIsValid } from "../auth/auth.subService";
+import { postModel } from "../post/post.model";
+import { checkPostIsValid } from "../post/post.utils";
 
 // create comment in the db
-const createPostIntoDb = async (payload: TComment) => {
+const createCommentIntoDb = async (payload: TComment) => {
+
+    // get the post
+    const post = await postModel.findById({_id: payload.post});
+    
+    // check the post
+    const checkedPost = checkPostIsValid(post);
+    if (!checkedPost) {
+        sendError(HttpStatus.FORBIDDEN, 'Can not Comment the Post.');
+    }
 
     // new paylod                                   
     const newPayload = { ...payload, isDeleted: false };
@@ -57,7 +68,7 @@ const deleteCommentByUserFromDb = async (token: string, commentId: string) => {
         sendError(HttpStatus.FORBIDDEN, 'Comment is already deleted.');
     };
 
-    if (String(comment?.userId) !== userId) {
+    if (String(comment?.user) !== userId) {
         sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
     }
 
@@ -68,7 +79,7 @@ const deleteCommentByUserFromDb = async (token: string, commentId: string) => {
 
 // all the comment services
 export const commentServices = {
-    createPostIntoDb,
+    createCommentIntoDb,
     getAllCommentsByPostFromDb,
     deleteCommentByUserFromDb,
 };

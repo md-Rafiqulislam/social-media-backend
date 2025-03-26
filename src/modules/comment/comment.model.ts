@@ -11,12 +11,12 @@ const commentSchema = new Schema<TComment>({
         trim: true,
         min: [1, 'Comment content can not be empty'],
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'User Id is required.'],
     },
-    postId: {
+    post: {
         type: Schema.Types.ObjectId,
         ref: 'Post',
         required: [true, 'Post Id is required.'],

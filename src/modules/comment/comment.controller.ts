@@ -9,7 +9,14 @@ import { sendError } from "../../errors/appError";
 
 // create comment
 const createComment = catchAsync(async (req, res) => {
-    const result = await commentServices.createPostIntoDb(req.body);
+
+    // check the user and comment body
+    if (req.user.userId !== req.body.user) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    // get the result
+    const result = await commentServices.createCommentIntoDb(req.body);
 
     // send response to the client
     sendResponse(res, {
