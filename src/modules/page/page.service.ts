@@ -4,7 +4,7 @@ import { HttpStatus } from "http-status-ts";
 import { sendError } from "../../errors/appError";
 import { TPage } from "./page.type";
 import { pageModel } from "./page.model";
-import { checkPageIsDeleted, checkPageIsValid } from "./page.utils";
+import { checkPageIsValid } from "./page.utils";
 import { JwtPayload } from "jsonwebtoken";
 
 
@@ -47,7 +47,7 @@ const updatePageIntoDb = async (userPayload: JwtPayload, pageId: string, payload
 const deletePageFromDb = async (pageId: string) => {
     const page = await pageModel.findById({ _id: pageId });
 
-    const checkedPage = checkPageIsDeleted(page);
+    const checkedPage = checkPageIsValid(page);
 
     if (!checkedPage) {
         sendError(HttpStatus.BAD_REQUEST, 'Bad request for delete page');

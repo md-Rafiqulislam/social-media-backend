@@ -5,7 +5,6 @@ import { sendError } from "../../errors/appError";
 import { catchAsync } from "../../utils/catchAsync";
 import { pageServices } from "./page.service";
 import { sendResponse } from "../../utils/sendResponse";
-import { postServices } from "../post/post.service";
 import { JwtPayload } from "jsonwebtoken";
 
 
@@ -50,7 +49,7 @@ const deletePage = catchAsync(async (req, res) => {
         sendError(HttpStatus.NOT_FOUND, 'Page Id is not given.');
     }
 
-    await postServices.deletePostFromDb(pageId);
+    await pageServices.deletePageFromDb(pageId);
 
     // send response to the client
     sendResponse(res, {

@@ -1,7 +1,6 @@
 
 // all the imports here
 import { auth } from "../../middlewares/auth";
-import { validateRequest } from "../../middlewares/zodValidation";
 import { createRotuer } from "../../utils/createRouter";
 import { userRole } from "../user/user.constant";
 import { pageControllers } from "./page.controller";

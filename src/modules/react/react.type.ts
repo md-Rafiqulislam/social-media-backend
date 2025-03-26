@@ -11,8 +11,8 @@ export type TReactName = keyof typeof reactName;
 // react type
 export type TReact = {
     reactName: TReactName;
-    userId: Types.ObjectId;
-    postId?: Types.ObjectId;
-    commentId?: Types.ObjectId;
+    user: Types.ObjectId;
+    post?: Types.ObjectId;
+    comment?: Types.ObjectId;
     isDone?: boolean;
 };

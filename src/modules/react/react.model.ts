@@ -12,17 +12,17 @@ const reactSchema = new Schema<TReact>({
         enum: Object.keys(reactName),
         required: [true, "React name is required."],
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: [true, "User ID is required."],
     },
-    postId: {
+    post: {
         type: Schema.Types.ObjectId,
         ref: "Post",
-        required: false,
+        required: [true, 'Post Id is required.'],
     },
-    commentId: {
+    comment: {
         type: Schema.Types.ObjectId,
         ref: "Comment",
         required: false,
