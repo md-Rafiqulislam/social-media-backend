@@ -20,8 +20,10 @@ router.post(
 // update page
 router.patch(
     '/update-page/:pageId',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
     pageControllers.updatePage,
 );
+
 
 // delete page
 router.delete(

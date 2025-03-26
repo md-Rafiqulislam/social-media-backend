@@ -4,7 +4,8 @@ import { HttpStatus } from "http-status-ts";
 import { sendError } from "../../errors/appError";
 import { TPage } from "./page.type";
 import { pageModel } from "./page.model";
-import { checkPageIsDeleted } from "./page.utils";
+import { checkPageIsDeleted, checkPageIsValid } from "./page.utils";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // create page into db
@@ -19,16 +20,25 @@ const createpageIntoDb = async (payload: TPage) => {
 
 
 // upadate page into db
-const updatePageIntoDb = async (pageId: string, payload: Partial<TPage>) => {
-    const page = await pageModel.findById({ _id: payload });
+const updatePageIntoDb = async (userPayload: JwtPayload, pageId: string, payload: Partial<TPage>) => {
 
-    const checkedPage = checkPageIsDeleted(page);
+    // find the page
+    const page = await pageModel.findById({ _id: pageId });
 
+    // check the page
+    const checkedPage = checkPageIsValid(page);
     if (!checkedPage) {
         sendError(HttpStatus.BAD_REQUEST, 'Bad request for update page.');
     }
 
-    const result = await pageModel.findByIdAndUpdate({ _id: pageId }, payload, { new: true });
+    if (String(page?.user) !== userPayload.userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    // new payload
+    const { isDeleted, ...newPayload } = payload;
+
+    const result = await pageModel.findByIdAndUpdate({ _id: pageId }, newPayload, { new: true });
     return result;
 };
 

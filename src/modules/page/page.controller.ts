@@ -6,6 +6,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { pageServices } from "./page.service";
 import { sendResponse } from "../../utils/sendResponse";
 import { postServices } from "../post/post.service";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // create page 
@@ -29,12 +30,9 @@ const createpage = catchAsync(async (req, res) => {
 
 // upadate page
 const updatePage = catchAsync(async (req, res) => {
-    const { pageId } = req.params;
-    if (!pageId) {
-        sendError(HttpStatus.NOT_FOUND, 'Page Id is not given.');
-    }
+    
 
-    const result = await pageServices.updatePageIntoDb(pageId, req.body);
+    const result = await pageServices.updatePageIntoDb(req.user as JwtPayload, req.params.pageId as string, req.body);
 
     // send response to the client
     sendResponse(res, {
