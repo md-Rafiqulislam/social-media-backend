@@ -19,8 +19,9 @@ router.post(
 );
 
 // update post
-router.post(
+router.patch(
     '/update-post/:postId',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
     validateRequest(postValidationSchema.updatePostValidationSchema),
     postControllers.updatePost
 );

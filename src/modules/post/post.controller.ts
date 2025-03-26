@@ -29,7 +29,14 @@ const createPost = catchAsync(async (req, res) => {
 
 // update post
 const updatePost = catchAsync(async (req, res) => {
-    const result = await postServices.updatePostIntoDb(req.params.postId, req.body);
+
+    // get the user and check
+    const user = req.user;
+    if (!user) {
+        sendError(HttpStatus.NOT_FOUND, 'User not found.');
+    }
+
+    const result = await postServices.updatePostIntoDb(user, req.params.postId, req.body);
 
     // send response to the client
     sendResponse(res, {

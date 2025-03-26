@@ -6,12 +6,17 @@ import { TPost } from "./post.type";
 
 // check post is valid
 export const checkPostIsValid = (post: TPost | null) => {
+
+    let retrunValue: boolean = true;
     if (!post) {
+        retrunValue = false;
         sendError(HttpStatus.NOT_FOUND, 'Post Not Found.');
     }
 
-    if (post?.isDeleted) {
+    if (post?.isDeleted === true) {
+        retrunValue = false;
         sendError(HttpStatus.FORBIDDEN, 'Post is already deleted.');
     }
-    return true;
+
+    return retrunValue;
 };

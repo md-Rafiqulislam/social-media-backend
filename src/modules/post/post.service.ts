@@ -11,10 +11,7 @@ import { JwtPayload } from "jsonwebtoken";
 // create post into db
 const createPostIntoDb = async (user: JwtPayload, payload: TPost) => {
 
-    const useridByUser = user.userId; // userId from user
-    const userIdByPayload = payload.user; // userId from payload
-
-    if (useridByUser !== userIdByPayload) {
+    if (user.userId !== payload.user) {
         sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
     }
 
@@ -22,25 +19,32 @@ const createPostIntoDb = async (user: JwtPayload, payload: TPost) => {
     const newPayload = { ...payload, isDeleted: false };
 
     // create post
-    const result = (await postModel.create(newPayload));
+    const result = await postModel.create(newPayload);
+    if(!result) {
+        sendError(HttpStatus.BAD_REQUEST, 'Post can not created.');
+    }
     return result;
 };
 
 
 // upadate post into db
-const updatePostIntoDb = async (postId: string, payload: Partial<TPost>) => {
+const updatePostIntoDb = async (payloadUser: JwtPayload, postId: string, payload: Partial<TPost>) => {
 
     // check the post is exists
     const post = await postModel.findOne({ _id: postId });
 
-    // check the is valid
+    // check the post is valid
     const checkedPost = checkPostIsValid(post);
     if (!checkedPost) {
         sendError(HttpStatus.FORBIDDEN, 'Post can not updated.');
     }
 
+    if (String(post?.user) !== payloadUser.userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
     // update payload
-    const { isDeleted, userId, ...newPayload } = { ...payload };
+    const { isDeleted, user, ...newPayload } = payload;
 
     // update post
     const result = await postModel.findOneAndUpdate({ _id: postId }, newPayload, { new: true });
@@ -50,6 +54,7 @@ const updatePostIntoDb = async (postId: string, payload: Partial<TPost>) => {
         sendError(HttpStatus.BAD_REQUEST, 'post can not updated!!!');
     }
 
+    // return result;
     return result;
 };
 
