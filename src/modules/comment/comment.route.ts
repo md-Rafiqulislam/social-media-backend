@@ -27,5 +27,13 @@ router.get(
 );
 
 
+// delete comment by user
+router.delete(
+    '/delete-comment/:commentId/',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    commentControllers.deleteCommentByUser,
+);
+
+
 // export comment routes
 export const commentRoutes = router;

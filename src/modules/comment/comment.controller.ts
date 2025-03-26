@@ -5,6 +5,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { commentServices } from "./comment.service";
 import { sendError } from "../../errors/appError";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // create comment
@@ -48,12 +49,14 @@ const getComments = catchAsync(async (req, res) => {
 
 // delete comment by user
 const deleteCommentByUser = catchAsync(async (req, res) => {
-    console.log(req.user);
+    
+    const result = await commentServices.deleteCommentByUserFromDb(req.user as JwtPayload, req.params.commentId as string);
 
+    // send response to the client
     sendResponse(res, {
         statusCode: HttpStatus.OK,
-        message: 'comment deleted successfully',
-        data: null,
+        message: 'Comment deleted successfully',
+        data: result,
     });
 });
 

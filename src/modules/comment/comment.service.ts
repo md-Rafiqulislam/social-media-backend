@@ -10,6 +10,7 @@ import { userModel } from "../user/user.model";
 import { checkUserIsValid } from "../auth/auth.subService";
 import { postModel } from "../post/post.model";
 import { checkPostIsValid } from "../post/post.utils";
+import { checkCommentIsValid } from "./comment.utils";
 
 // create comment in the db
 const createCommentIntoDb = async (payload: TComment) => {
@@ -40,38 +41,23 @@ const getAllCommentsByPostFromDb = async (payload: string) => {
 
 
 // delete comment
-const deleteCommentByUserFromDb = async (token: string, commentId: string) => {
+const deleteCommentByUserFromDb = async (userPayload: JwtPayload, commentId: string) => {
 
     // find the comment
     const comment = await commentModel.findById({ _id: commentId });
 
-    // decode the access token
-    const decoded = jwt.verify(token, envFile.accessTokenSecret);
-
-    const { email, userId } = decoded as JwtPayload;
-
-    // find the user
-    const user = await userModel.findOne({ email }).select('-password');
-
-    // check the user
-    const checkedUser = checkUserIsValid(user);
-    if (!checkedUser) {
-        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
-    }
-
     // check the comment
-    if (!comment) {
-        sendError(HttpStatus.NOT_FOUND, 'Comment not found.');
+    const checkedComment = checkCommentIsValid(comment);
+    if(!checkedComment) {
+        sendError(HttpStatus.BAD_REQUEST, 'Comment is unavailable to delete.');
     }
 
-    if (comment?.isDeleted) {
-        sendError(HttpStatus.FORBIDDEN, 'Comment is already deleted.');
-    };
-
-    if (String(comment?.user) !== userId) {
+    // check user of the comment
+    if(String(comment?.user) !== userPayload.userId) {
         sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
     }
 
+    // update comment as deleted
     await commentModel.findByIdAndUpdate({ _id: commentId }, { isDeleted: true }, { new: true });
     return null;
 };
