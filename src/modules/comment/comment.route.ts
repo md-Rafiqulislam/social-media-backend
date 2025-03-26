@@ -18,5 +18,12 @@ router.post(
 );
 
 
+// get all comments by post
+router.get(
+    '/get-comments/:postId',
+    commentControllers.getComments,
+);
+
+
 // export comment routes
 export const commentRoutes = router;
