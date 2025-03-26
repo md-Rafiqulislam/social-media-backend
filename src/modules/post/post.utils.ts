@@ -13,7 +13,7 @@ export const checkPostIsValid = (post: TPost | null) => {
         sendError(HttpStatus.NOT_FOUND, 'Post Not Found.');
     }
 
-    if (post?.isDeleted === true) {
+    if (post?.isDeleted) {
         retrunValue = false;
         sendError(HttpStatus.FORBIDDEN, 'Post is already deleted.');
     }

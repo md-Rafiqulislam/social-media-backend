@@ -48,8 +48,15 @@ const updatePost = catchAsync(async (req, res) => {
 
 
 // delete post
-const deletePost = catchAsync(async (req, res) => {
-    await postServices.deletePostFromDb(req.params.postId);
+const deletePostByUser = catchAsync(async (req, res) => {
+
+    // get the user and check
+    const user = req.user;
+    if (!user) {
+        sendError(HttpStatus.NOT_FOUND, 'User not found.');
+    }
+
+    await postServices.deletePostByUserFromDb(user, req.params.postId);
 
     // send response to the client
     sendResponse(res, {
@@ -63,5 +70,5 @@ const deletePost = catchAsync(async (req, res) => {
 export const postControllers = {
     createPost,
     updatePost,
-    deletePost,
+    deletePostByUser,
 };

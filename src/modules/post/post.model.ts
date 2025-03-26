@@ -30,7 +30,7 @@ const postSchema = new Schema<TPost>({
         default: visibilityOptions.public,
     },
     isDeleted: {
-        type: String,
+        type: Boolean,
         default: false,
     },
 }, {

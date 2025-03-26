@@ -20,7 +20,7 @@ const createPostIntoDb = async (user: JwtPayload, payload: TPost) => {
 
     // create post
     const result = await postModel.create(newPayload);
-    if(!result) {
+    if (!result) {
         sendError(HttpStatus.BAD_REQUEST, 'Post can not created.');
     }
     return result;
@@ -60,10 +60,10 @@ const updatePostIntoDb = async (payloadUser: JwtPayload, postId: string, payload
 
 
 // delete post in the db
-const deletePostFromDb = async (payload: string) => {
+const deletePostByUserFromDb = async (userPayload: JwtPayload, postId: string) => {
 
     // get the post
-    const post = await postModel.findById({ _id: payload });
+    const post = await postModel.findById({ _id: postId });
 
     // check the post is valid
     const checkedPost = checkPostIsValid(post);
@@ -71,7 +71,11 @@ const deletePostFromDb = async (payload: string) => {
         sendError(HttpStatus.FORBIDDEN, 'Post can not deleted.');
     }
 
-    await postModel.findByIdAndUpdate({ _id: payload }, { isDeleted: true }, { new: true });
+    if (String(post?.user) !== userPayload.userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    await postModel.findByIdAndUpdate({ _id: postId }, { isDeleted: true }, { new: true });
     return null;
 };
 
@@ -80,5 +84,5 @@ const deletePostFromDb = async (payload: string) => {
 export const postServices = {
     createPostIntoDb,
     updatePostIntoDb,
-    deletePostFromDb,
+    deletePostByUserFromDb,
 };

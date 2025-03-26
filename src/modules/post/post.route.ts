@@ -29,7 +29,8 @@ router.patch(
 // delete post
 router.delete(
     '/delete-post/:postId',
-    postControllers.deletePost,
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    postControllers.deletePostByUser,
 );
 
 // export post routes
