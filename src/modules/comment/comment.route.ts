@@ -40,6 +40,7 @@ router.delete(
 router.delete(
     '/delete-comment/:postId/:commentId',
     auth(userRole.user, userRole.admin, userRole.superAdmin),
+    validateRequest(commentValidationSchema.deleteCommentByPostUserValidationSchema),
     commentControllers.deleteCommentByPostUser,
 );
 

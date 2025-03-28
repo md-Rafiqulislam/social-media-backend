@@ -19,7 +19,19 @@ const createCommentValidationSchema = z.object({
 });
 
 
+// validation schema for create post
+const deleteCommentByPostUserValidationSchema = z.object({
+    body: z.object({
+        post: z.string({ required_error: 'Post Id is required.' })
+            .nonempty({ message: 'Post Id can not be empty.' }),
+    }),
+});
+
+
+
+
 // all the comment validaton schema
 export const commentValidationSchema = {
     createCommentValidationSchema,
+    deleteCommentByPostUserValidationSchema,
 };
