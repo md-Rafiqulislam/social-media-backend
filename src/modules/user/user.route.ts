@@ -56,6 +56,7 @@ router.post(
 router.patch(
     '/bocked-user/:userId',
     auth(userRole.admin, userRole.superAdmin),
+    validateRequest(userValidationSchema.blockUserValidationSchema),
     userControllers.blockUser,
 );
 

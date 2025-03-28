@@ -54,8 +54,17 @@ const updateUserValidationSchema = z.object({
 });
 
 
+// block user validation schema
+const blockUserValidationSchema = z.object({
+    body: z.object({
+        userId: z.string({ required_error: 'user Id is required.' }).nonempty('This field can not be empty.'),
+    }),
+});
+
+
 // export all the user validation schema
 export const userValidationSchema = {
     createUserValidationSchema,
     updateUserValidationSchema,
+    blockUserValidationSchema,
 };
