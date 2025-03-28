@@ -53,15 +53,7 @@ const updateUser = catchAsync(async (req, res) => {
 // delete user
 const deleteUser = catchAsync(async (req, res) => {
 
-    // get token
-    const token = req.headers.authorization;
-
-    // check the token
-    if (!token) {
-        sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
-    }
-
-    await userServices.deleteUserIntoDb(token as string);
+    await userServices.deleteUserIntoDb(req.user as JwtPayload);
 
     // send response to the client
     sendResponse(res, {
