@@ -95,6 +95,28 @@ const blockUserIntoDb = async (userId: string) => {
 };
 
 
+// block the user into db
+const deleteUserByAdminIntoDb = async (userId: string) => {
+    // find the user
+    const user = await userModel.findById({ _id: userId }).select('userRole');
+
+    // check the user role
+    if (user?.userRole !== userRole.user) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    // check the user
+    const checkedUser = checkUserIsValid(user);
+    if (!checkedUser) {
+        sendError(HttpStatus.BAD_REQUEST, 'Unable to delete the user.');
+    }
+
+    // block the user by admin and super admin
+    await userModel.findOneAndUpdate({ _id: userId }, { isDeleted: true }, { new: true });
+    return userId;
+};
+
+
 // all the user services
 export const userServices = {
     createUserIntoDb,
@@ -103,4 +125,5 @@ export const userServices = {
     updateUserIntoDb,
     deleteUserIntoDb,
     blockUserIntoDb,
+    deleteUserByAdminIntoDb,
 };

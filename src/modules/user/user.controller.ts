@@ -96,6 +96,25 @@ const blockUser = catchAsync(async (req, res) => {
 });
 
 
+// delete the user
+const deletekUserByAdmin = catchAsync(async (req, res) => {
+
+    // check the params and data
+    if(req.params.userId !== req.body.userId) {
+        sendError(HttpStatus.CONFLICT, 'params user id and send user id is not matched.');
+    }
+
+    const result = await userServices.blockUserIntoDb(req.params.userId as string);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'Deleted this user successfully.',
+        data: result,
+    });
+});
+
+
 // all the user controllers
 export const userControllers = {
     createUser,
@@ -104,4 +123,5 @@ export const userControllers = {
     updateUser,
     deleteUser,
     blockUser,
+    deletekUserByAdmin,
 };

@@ -60,5 +60,14 @@ router.patch(
     userControllers.blockUser,
 );
 
+
+// delete user status by admin and super admin
+router.patch(
+    '/delete-user/:userId',
+    auth(userRole.admin, userRole.superAdmin),
+    validateRequest(userValidationSchema.deleteUserValidationSchema),
+    userControllers.deletekUserByAdmin,
+);
+
 // export user routes
 export const userRoutes = router;
