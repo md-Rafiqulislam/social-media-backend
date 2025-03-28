@@ -42,6 +42,7 @@ router.patch(
     postControllers.updatePost
 );
 
+
 // delete post
 router.delete(
     '/delete-post/:postId',

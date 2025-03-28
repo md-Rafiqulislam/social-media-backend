@@ -41,7 +41,7 @@ const getAllPostFromDb = async () => {
 
 
 // get all post by user from db
-const getAllPostByUserFromDb = async (user: JwtPayload, userId: string) => {
+const getAllPostByUserFromDb = async (userId: string) => {
     const posts = await postModel.find({ user: userId, isDeleted: false });
     return posts;
 };

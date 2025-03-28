@@ -49,7 +49,7 @@ const getComments = catchAsync(async (req, res) => {
 
 // delete comment by user
 const deleteCommentByUser = catchAsync(async (req, res) => {
-    
+
     const result = await commentServices.deleteCommentByUserFromDb(req.user as JwtPayload, req.params.commentId as string);
 
     // send response to the client
@@ -61,9 +61,28 @@ const deleteCommentByUser = catchAsync(async (req, res) => {
 });
 
 
+// delete commment by post user
+const deleteCommentByPostUser = catchAsync(async (req, res) => {
+
+    const user = req.user;
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+
+    const result = await commentServices.deleteCommentByPostUserFromDb(user as JwtPayload, postId as string, commentId as string);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'Comment deleted successfully.',
+        data: result,
+    });
+});
+
+
 // all the comment controllers
 export const commentControllers = {
     createComment,
     getComments,
     deleteCommentByUser,
+    deleteCommentByPostUser,
 };

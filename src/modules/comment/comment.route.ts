@@ -11,6 +11,7 @@ import { commentValidationSchema } from "./comment.validation";
 // create a router
 const router = createRotuer();
 
+
 // create comment
 router.post(
     '/create-comment/',
@@ -32,6 +33,14 @@ router.delete(
     '/delete-comment/:commentId/',
     auth(userRole.user, userRole.admin, userRole.superAdmin),
     commentControllers.deleteCommentByUser,
+);
+
+
+// delete comment by post user
+router.delete(
+    '/delete-comment/:postId/:commentId',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    commentControllers.deleteCommentByPostUser,
 );
 
 

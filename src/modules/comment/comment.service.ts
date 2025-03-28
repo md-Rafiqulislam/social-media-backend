@@ -16,8 +16,8 @@ import { checkCommentIsValid } from "./comment.utils";
 const createCommentIntoDb = async (payload: TComment) => {
 
     // get the post
-    const post = await postModel.findById({_id: payload.post});
-    
+    const post = await postModel.findById({ _id: payload.post });
+
     // check the post
     const checkedPost = checkPostIsValid(post);
     if (!checkedPost) {
@@ -48,12 +48,12 @@ const deleteCommentByUserFromDb = async (userPayload: JwtPayload, commentId: str
 
     // check the comment
     const checkedComment = checkCommentIsValid(comment);
-    if(!checkedComment) {
+    if (!checkedComment) {
         sendError(HttpStatus.BAD_REQUEST, 'Comment is unavailable to delete.');
     }
 
     // check user of the comment
-    if(String(comment?.user) !== userPayload.userId) {
+    if (String(comment?.user) !== userPayload.userId) {
         sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
     }
 
@@ -63,9 +63,47 @@ const deleteCommentByUserFromDb = async (userPayload: JwtPayload, commentId: str
 };
 
 
+// delete comment by post user into db
+const deleteCommentByPostUserFromDb = async (userpayload: JwtPayload, postId: string, commentId: string) => {
+    // find the comment 
+    const comment = await commentModel.findById({ _id: commentId });
+
+    // check the comment
+    const checkedComment = checkCommentIsValid(comment);
+    if (!checkedComment) {
+        sendError(HttpStatus.FORBIDDEN, 'Unable to delete comment.');
+    }
+
+    if (String(comment?.post) !== postId) {
+        sendError(HttpStatus.FORBIDDEN, 'Unable to delete comment.');
+    }
+
+    // find the post
+    const post = await postModel.findById({ _id: comment?.post });
+
+    // check the post is valid
+    const checkedPost = checkPostIsValid(post);
+    if (!checkedPost) {
+        sendError(HttpStatus.FORBIDDEN, 'Unable to find the post for comment delete.');
+    }
+
+    if (String(post?.user)! == userpayload.userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    if (String(post?._id) !== postId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    await commentModel.findByIdAndUpdate({ _id: commentId }, { isDeleted: true }, { new: true });
+    return commentId;
+};
+
+
 // all the comment services
 export const commentServices = {
     createCommentIntoDb,
     getAllCommentsByPostFromDb,
     deleteCommentByUserFromDb,
+    deleteCommentByPostUserFromDb,
 };

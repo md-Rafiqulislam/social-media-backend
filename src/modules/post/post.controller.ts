@@ -51,7 +51,7 @@ const getAllPostByUser = catchAsync(async (req, res) => {
     }
 
     // get posts
-    const result = await postServices.getAllPostByUserFromDb(req.user as JwtPayload, req.params.userId as string);
+    const result = await postServices.getAllPostByUserFromDb(req.params.userId as string);
 
     // send response to the client
     sendResponse(res, {
