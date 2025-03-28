@@ -5,6 +5,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { userServices } from "./user.service";
 import { sendError } from "../../errors/appError";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // create user
@@ -24,15 +25,7 @@ const createUser = catchAsync(async (req, res) => {
 // get user get me route
 const getUser = catchAsync(async (req, res) => {
 
-    // get the token
-    const token = req.headers.authorization;
-
-    // check the token is exists
-    if (!token) {
-        sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
-    }
-
-    const result = await userServices.getUserFromDb(token as string);
+    const result = await userServices.getUserFromDb(req.user as JwtPayload);
 
     // send the response to the client
     sendResponse(res, {

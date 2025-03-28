@@ -32,23 +32,9 @@ const createUserIntoDb = async (payload: TUser) => {
 
 
 // get user from db as get me route
-const getUserFromDb = async (payload: string) => {
-
-    const decoded = jwt.verify(payload, envFile.accessTokenSecret);
-
-    const { email } = decoded as JwtPayload;
-
+const getUserFromDb = async (userPayload: JwtPayload) => {
     // find the user
-    const user = await userModel.findOne({ email }).select('-password');
-
-    const checkedUser = checkUserIsValid(user);
-
-    // check the user is valid
-    if (!checkedUser) {
-        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
-    }
-
-    // return the user
+    const user = await userModel.findOne({ email: userPayload.email }).select('-password');
     return user;
 };
 
