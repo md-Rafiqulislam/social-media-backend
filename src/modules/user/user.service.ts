@@ -40,33 +40,12 @@ const getUserFromDb = async (userPayload: JwtPayload) => {
 
 
 // update user into db
-const updateUserIntoDb = async (token: string, payload: Partial<TUser>) => {
-
-    // decode the token
-    const decoded = jwt.verify(token, envFile.accessTokenSecret);
-
-    // extract the token
-    const { userId, email } = decoded as JwtPayload;
-
-    // find the user
-    const user = await userModel.findOne({ email }).select('-password');
-
-    // check the user
-    const checkedUser = checkUserIsValid(user);
-
-    if (!checkedUser) {
-        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
-    }
-
-    if (String(user?._id) !== userId) {
-        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
-    }
-
+const updateUserIntoDb = async (userPayload: JwtPayload, payload: Partial<TUser>) => {
     // set user update data to user
     const { isDeleted, userStatus, userRole, password, ...newPayload } = { ...payload };
 
     // update user
-    const result = await userModel.findOneAndUpdate({ email, }, newPayload, { new: true }).select('-password');
+    const result = await userModel.findOneAndUpdate({ email: userPayload.email, }, newPayload, { new: true }).select('-password');
     return result;
 };
 

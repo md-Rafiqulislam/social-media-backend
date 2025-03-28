@@ -39,15 +39,7 @@ const getUser = catchAsync(async (req, res) => {
 // update user
 const updateUser = catchAsync(async (req, res) => {
 
-    // get the token
-    const token = req.headers.authorization;
-
-    // check the token
-    if (!token) {
-        sendError(HttpStatus.UNAUTHORIZED, 'Token not found.');
-    }
-
-    const result = await userServices.updateUserIntoDb(token as string, req.body);
+    const result = await userServices.updateUserIntoDb(req.user as JwtPayload, req.body);
 
     // send response to the client
     sendResponse(res, {
