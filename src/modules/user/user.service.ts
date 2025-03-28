@@ -5,8 +5,7 @@ import { sendError } from "../../errors/appError";
 import { userRole, userStatus } from "./user.constant";
 import { userModel } from "./user.model";
 import { TUser } from "./user.type";
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { envFile } from "../../envConfig";
+import { JwtPayload } from 'jsonwebtoken';
 import { checkUserIsValid } from "../auth/auth.subService";
 
 
@@ -79,6 +78,23 @@ const createAdminIntoDb = async (payload: TUser) => {
 };
 
 
+// block the user into db
+const blockUserIntoDb = async (userId: string) => {
+    // find the user
+    const user = await userModel.findById({ _id: userId }).select('email');
+
+    // check the user
+    const checkedUser = checkUserIsValid(user);
+    if (!checkedUser) {
+        sendError(HttpStatus.BAD_REQUEST, 'Unable to bloked the user.');
+    }
+
+    // block the user by admin and super admin
+    await userModel.findOneAndUpdate({ _id: userId }, { userStatus: userStatus.blocked }, { new: true });
+    return userId;
+};
+
+
 // all the user services
 export const userServices = {
     createUserIntoDb,
@@ -86,4 +102,5 @@ export const userServices = {
     createAdminIntoDb,
     updateUserIntoDb,
     deleteUserIntoDb,
+    blockUserIntoDb,
 };

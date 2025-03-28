@@ -52,5 +52,12 @@ router.post(
 );
 
 
+// block user status by admin and super admin
+router.patch(
+    '/bocked-user/:userId',
+    auth(userRole.admin, userRole.superAdmin),
+    userControllers.blockUser,
+);
+
 // export user routes
 export const userRoutes = router;
