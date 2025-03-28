@@ -85,13 +85,7 @@ const updatePost = catchAsync(async (req, res) => {
 // delete post
 const deletePostByUser = catchAsync(async (req, res) => {
 
-    // get the user and check
-    const user = req.user;
-    if (!user) {
-        sendError(HttpStatus.NOT_FOUND, 'User not found.');
-    }
-
-    await postServices.deletePostByUserFromDb(user, req.params.postId);
+    await postServices.deletePostByUserFromDb(req.user as JwtPayload, req.params.postId);
 
     // send response to the client
     sendResponse(res, {

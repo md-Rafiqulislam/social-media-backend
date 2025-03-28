@@ -7,6 +7,8 @@ import { TPost } from "./post.type";
 import { checkPostIsValid } from "./post.utils";
 import { JwtPayload } from "jsonwebtoken";
 import { visibility } from "../page/page.constant";
+import mongoose from "mongoose";
+import { commentModel } from "../comment/comment.model";
 
 
 // create post into db
@@ -40,7 +42,7 @@ const getAllPostFromDb = async () => {
 
 // get all post by user from db
 const getAllPostByUserFromDb = async (user: JwtPayload, userId: string) => {
-    const posts = await postModel.find({user: userId, isDeleted: false});
+    const posts = await postModel.find({ user: userId, isDeleted: false });
     return posts;
 };
 
@@ -93,8 +95,26 @@ const deletePostByUserFromDb = async (userPayload: JwtPayload, postId: string) =
         sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
     }
 
-    await postModel.findByIdAndUpdate({ _id: postId }, { isDeleted: true }, { new: true });
-    return null;
+    // start a session to operate multiple operations
+    const session = await mongoose.startSession();
+
+    try {
+        // start the first trasaction
+        session.startTransaction();
+
+        // first transaction
+        await postModel.findByIdAndUpdate({ _id: postId }, { isDeleted: true }, { new: true, session });
+
+        // second transaction
+        await commentModel.updateMany({ post: postId }, { isDeleted: true }, { new: true, session });
+    } catch (error) {
+        await session.abortTransaction();
+        sendError(HttpStatus.CONFLICT, 'Unable to delete Post.');
+    } finally {
+        await session.endSession();
+        return null;
+    }
+
 };
 
 

@@ -62,7 +62,7 @@ router.patch(
 
 
 // delete user status by admin and super admin
-router.patch(
+router.delete(
     '/delete-user/:userId',
     auth(userRole.admin, userRole.superAdmin),
     validateRequest(userValidationSchema.deleteUserValidationSchema),
