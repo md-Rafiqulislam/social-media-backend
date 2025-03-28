@@ -46,6 +46,7 @@ router.delete(
 // create admin
 router.post(
     '/create-admin',
+    auth(userRole.superAdmin),
     validateRequest(userValidationSchema.createUserValidationSchema),
     userControllers.createAdmin
 );
