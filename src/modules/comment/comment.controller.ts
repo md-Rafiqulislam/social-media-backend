@@ -30,13 +30,7 @@ const createComment = catchAsync(async (req, res) => {
 
 // get comments by post
 const getComments = catchAsync(async (req, res) => {
-    const { postId } = req.params;
-
-    if (!postId) {
-        sendError(HttpStatus.BAD_REQUEST, 'Post Id is required.');
-    }
-
-    const result = await commentServices.getAllCommentsByPostFromDb(postId as string);
+    const result = await commentServices.getAllCommentsByPostFromDb(req.params.postId as string);
 
     // send response to the client
     sendResponse(res, {

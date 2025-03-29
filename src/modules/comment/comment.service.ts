@@ -35,7 +35,7 @@ const createCommentIntoDb = async (payload: TComment) => {
 
 // get all the comments for single post from bd
 const getAllCommentsByPostFromDb = async (payload: string) => {
-    const comments = await commentModel.find({ postId: payload, isDelete: false }).populate("userId", "firstName lastName");
+    const comments = await commentModel.find({ post: payload, isDeleted: false }).populate("user", "firstName lastName");
     return comments;
 };
 
