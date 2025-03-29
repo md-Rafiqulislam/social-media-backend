@@ -4,6 +4,7 @@ import { model, Schema } from "mongoose";
 import { TPage } from "./page.type";
 import { visibility } from "./page.constant";
 
+
 // page shcema
 const pageSchema = new Schema<TPage>({
     title: {

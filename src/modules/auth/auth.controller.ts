@@ -15,7 +15,7 @@ const loginUser = catchAsync(async (req, res) => {
 
     // save refresh token in cookie
     res.cookie('social-media-refreshToken', refreshToken, {
-        secure: envFile.nEnv !== 'development',
+        secure: envFile.nEnv === 'production',
         httpOnly: true,
         sameSite: 'none',
         maxAge: 1000 * 60 * 60 * 24 * 365,

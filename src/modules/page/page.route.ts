@@ -8,6 +8,7 @@ import { pageControllers } from "./page.controller";
 // create router
 const router = createRotuer();
 
+
 // create page
 router.post(
     '/create-page',
@@ -29,6 +30,7 @@ router.delete(
     '/delete-page/:pageId',
     pageControllers.deletePage,
 );
+
 
 // export all the page routes
 export const pageRoutes = router;

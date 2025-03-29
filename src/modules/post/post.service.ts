@@ -107,6 +107,9 @@ const deletePostByUserFromDb = async (userPayload: JwtPayload, postId: string) =
 
         // second transaction
         await commentModel.updateMany({ post: postId }, { isDeleted: true }, { new: true, session });
+
+        // commit the transaction
+        await session.commitTransaction();
     } catch (error) {
         await session.abortTransaction();
         sendError(HttpStatus.CONFLICT, 'Unable to delete Post.');
