@@ -121,6 +121,26 @@ const deletePostByUserFromDb = async (userPayload: JwtPayload, postId: string) =
 };
 
 
+// visibility change for post by user
+const postVisibilityChangeByUserIntoDb = async (userPayload: JwtPayload, postId: string, payload: any) => {
+    // find the post
+    const post = await postModel.findById({ _id: postId });
+
+    // check the post
+    const checkedPost = checkPostIsValid(post);
+    if (!checkedPost) {
+        sendError(HttpStatus.FORBIDDEN, 'Unable to change the post visibility.');
+    }
+
+    if (userPayload.userId !== String(post?.user)) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
+    const result = await postModel.findByIdAndUpdate({ _id: postId }, payload, { new: true });
+    return result;
+};
+
+
 // all the post services
 export const postServices = {
     createPostIntoDb,
@@ -128,4 +148,5 @@ export const postServices = {
     getAllPostByUserFromDb,
     updatePostIntoDb,
     deletePostByUserFromDb,
+    postVisibilityChangeByUserIntoDb,
 };

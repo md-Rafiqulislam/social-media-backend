@@ -50,5 +50,14 @@ router.delete(
     postControllers.deletePostByUser,
 );
 
+
+// post visibility change
+router.patch(
+    '/change-visibility/:postId',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    postControllers.postVisibilityChange,
+);
+
+
 // export post routes
 export const postRoutes = router;

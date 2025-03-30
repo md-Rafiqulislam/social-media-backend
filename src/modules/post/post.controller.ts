@@ -96,6 +96,19 @@ const deletePostByUser = catchAsync(async (req, res) => {
 });
 
 
+// visibility change
+const postVisibilityChange = catchAsync(async (req, res) => {
+    const result = await postServices.postVisibilityChangeByUserIntoDb(req.user as JwtPayload, req.params.postId as string, req.body as any);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'Post visibility change successfully.',
+        data: result,
+    });
+});
+
+
 // all the post controllers
 export const postControllers = {
     createPost,
@@ -103,4 +116,5 @@ export const postControllers = {
     getAllPostByUser,
     updatePost,
     deletePostByUser,
+    postVisibilityChange,
 };
