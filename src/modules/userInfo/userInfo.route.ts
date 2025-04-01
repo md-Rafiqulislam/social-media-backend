@@ -26,6 +26,7 @@ router.get(
 );
 
 
+// update user info
 router.patch(
     '/update-user-info/me',
     auth(userRole.user, userRole.admin, userRole.superAdmin),
