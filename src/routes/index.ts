@@ -5,6 +5,7 @@ import { commentRoutes } from "../modules/comment/comment.route";
 import { pageRoutes } from "../modules/page/page.route";
 import { postRoutes } from "../modules/post/post.route";
 import { userRoutes } from "../modules/user/user.route";
+import { userInfoRoutes } from "../modules/userInfo/userInfo.route";
 import { createRotuer } from "../utils/createRouter";
 import { TRoute } from "./route.type";
 
@@ -32,6 +33,10 @@ const modulesRoute: TRoute[] = [
     {
         path: '/comment',
         route: commentRoutes,
+    },
+    {
+        path: 'userInfo',
+        route: userInfoRoutes,
     }
 ];
 
