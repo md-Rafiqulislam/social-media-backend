@@ -18,6 +18,11 @@ const groupMemberSchema = new Schema<TGroupMember>({
         required: [true, 'User Id is required.'],
         ref: 'User',
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+        required: false,
+    },
 });
 
 
