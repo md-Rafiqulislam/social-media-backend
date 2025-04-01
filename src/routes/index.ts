@@ -35,7 +35,7 @@ const modulesRoute: TRoute[] = [
         route: commentRoutes,
     },
     {
-        path: 'userInfo',
+        path: '/user-info',
         route: userInfoRoutes,
     }
 ];

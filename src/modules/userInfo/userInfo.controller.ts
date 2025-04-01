@@ -16,6 +16,10 @@ const createUserInfo = catchAsync(async (req, res) => {
         sendError(HttpStatus.NOT_FOUND, 'User is not found in requested body.');
     }
 
+    if (req.body.user !== req.user.userId) {
+        sendError(HttpStatus.UNAUTHORIZED, 'You are not authorized.');
+    }
+
     const result = await userInfoServices.createUserInfoIntoDb(req.user as JwtPayload, req.body);
 
     // send the response to the client
