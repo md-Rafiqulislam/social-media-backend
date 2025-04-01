@@ -2,7 +2,7 @@
 // all the react
 export const reactName = {
     like: 'like',
-    unLike: 'unLike',
+    disLike: 'disLike',
     sad: 'sad',
     happy: 'happy',
     excited: 'excited',

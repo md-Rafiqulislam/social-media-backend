@@ -20,7 +20,7 @@ const reactSchema = new Schema<TReact>({
     post: {
         type: Schema.Types.ObjectId,
         ref: "Post",
-        required: [true, 'Post Id is required.'],
+        required: false,
     },
     comment: {
         type: Schema.Types.ObjectId,
