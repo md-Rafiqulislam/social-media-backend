@@ -1,11 +1,22 @@
 
 // all the imports here
 import { Types } from "mongoose";
-import { groupVisible } from "./group.constant";
+import { groupUserType, groupVisible } from "./group.constant";
 
 
 // group visible type
 export type TGroupVisible = keyof typeof groupVisible;
+
+
+// group user type
+export type TGroupUserType = keyof typeof groupUserType;
+
+
+// member type
+export type TGroupMember = {
+    userType?: TGroupUserType;
+    userId: Types.ObjectId;
+};
 
 
 // group type
@@ -16,4 +27,5 @@ export type TGroup = {
     groupVisible?: TGroupVisible;
     isDeleted?: boolean;
     isFavourite?: boolean;
+    members?: TGroupMember[];
 };

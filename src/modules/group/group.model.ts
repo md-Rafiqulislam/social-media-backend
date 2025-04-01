@@ -1,37 +1,60 @@
 
 // all the imports here
 import { Schema, model } from "mongoose";
-import { groupVisible } from "./group.constant";
-import { TGroup } from "./group.type";
+import { groupUserType, groupVisible } from "./group.constant";
+import { TGroup, TGroupMember } from "./group.type";
+
+
+// group member schema
+const groupMemberSchema = new Schema<TGroupMember>({
+    userType: {
+        type: String,
+        enum: Object.values(groupUserType),
+        default: groupUserType.user,
+        required: false,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        required: [true, 'User Id is required.'],
+        ref: 'User',
+    },
+});
 
 
 // group  schema
 const groupSchema: Schema = new Schema<TGroup>({
     user: {
         type: Schema.Types.ObjectId,
-        required: true,
+        required: [true, 'User Id is required.'],
         ref: "User"
     },
     groupName: {
         type: String,
-        required: true
+        required: [true, 'Group Title is required.'],
     },
     groupDescription: {
         type: String,
-        required: true
+        required: [true, 'Group Description is required.'],
     },
     groupVisible: {
         type: String,
-        enum: Object.keys(groupVisible),
+        enum: Object.values(groupVisible),
         required: false,
+        default: groupVisible.public,
     },
     isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
+        required: false,
     },
     isFavourite: {
         type: Boolean,
-        default: false
+        default: false,
+        required: false,
+    },
+    members: {
+        type: [groupMemberSchema],
+        required: false,
     },
 });
 
