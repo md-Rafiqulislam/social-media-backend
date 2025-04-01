@@ -1,6 +1,6 @@
 
 // all the imports here
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { userMaritalStatus } from "./userInfo.constant";
 import { TUserInfo } from "./userInfo.type";
 
@@ -29,6 +29,10 @@ const userInfoSchema: Schema = new Schema<TUserInfo>({
         enum: Object.values(userMaritalStatus),
         required: false,
     },
+    birthDate: {
+        type: String,
+        required: false,
+    }
 });
 
 

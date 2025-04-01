@@ -15,4 +15,5 @@ export type TUserInfo = {
     userNickName?: string;
     aboutUser?: string;
     maritalStatus?: TUserMaritalStatus;
+    birthDate?: string;
 };

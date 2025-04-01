@@ -18,5 +18,20 @@ router.post(
 );
 
 
+// get user info
+router.get(
+    '/get-user-info/me',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    userInfoControllers.getUserInfo,
+);
+
+
+router.patch(
+    '/update-user-info/me',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    userInfoControllers.updateUserInfo,
+);
+
+
 // export all the user info routes
 export const userInfoRoutes = router;
