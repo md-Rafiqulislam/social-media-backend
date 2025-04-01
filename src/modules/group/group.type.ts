@@ -14,8 +14,8 @@ export type TGroupUserType = keyof typeof groupUserType;
 
 // member type
 export type TGroupMember = {
-    userType?: TGroupUserType;
     userId: Types.ObjectId;
+    userType?: TGroupUserType;
     isDeleted?: boolean;
 };
 

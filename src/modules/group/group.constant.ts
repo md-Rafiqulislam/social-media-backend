@@ -10,4 +10,5 @@ export const groupVisible = {
 export const groupUserType = {
     user: 'user',
     admin: 'admin',
+    superAdmin: 'superAdmin',
 } as const;
