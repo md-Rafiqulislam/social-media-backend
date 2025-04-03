@@ -1,7 +1,7 @@
 
 // all the imports here
 import { Types } from "mongoose";
-import { reactName } from "./react.constant";
+import { reactName } from "./reaction.constant";
 
 
 // react name type

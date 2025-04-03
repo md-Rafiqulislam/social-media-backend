@@ -1,8 +1,8 @@
 
 // all the imports here
 import { model, Schema } from "mongoose";
-import { TReact } from "./react.type";
-import { reactName } from "./react.constant";
+import { TReact } from "./reaction.type";
+import { reactName } from "./reaction.constant";
 
 
 //  react schema
@@ -38,4 +38,4 @@ const reactSchema = new Schema<TReact>({
 
 
 // Create and export the React model
-export const reactModel = model("React", reactSchema);
+export const reactModel = model("Reaction", reactSchema);
