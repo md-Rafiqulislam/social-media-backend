@@ -4,6 +4,7 @@ import { authRoutes } from "../modules/auth/auth.route";
 import { commentRoutes } from "../modules/comment/comment.route";
 import { pageRoutes } from "../modules/page/page.route";
 import { postRoutes } from "../modules/post/post.route";
+import { reactionRoutes } from "../modules/reaction/reaction.route";
 import { userRoutes } from "../modules/user/user.route";
 import { userInfoRoutes } from "../modules/userInfo/userInfo.route";
 import { createRotuer } from "../utils/createRouter";
@@ -37,7 +38,11 @@ const modulesRoute: TRoute[] = [
     {
         path: '/user-info',
         route: userInfoRoutes,
-    }
+    },
+    {
+        path: '/reaction',
+        route: reactionRoutes,
+    },
 ];
 
 // go through all the routes

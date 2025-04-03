@@ -1,16 +1,16 @@
 
 // all the imports here
 import { model, Schema } from "mongoose";
-import { TReact } from "./reaction.type";
-import { reactName } from "./reaction.constant";
+import { TReaction } from "./reaction.type";
+import { reactionName } from "./reaction.constant";
 
 
 //  react schema
-const reactSchema = new Schema<TReact>({
-    reactName: {
+const reactionSchema = new Schema<TReaction>({
+    reactionName: {
         type: String,
-        enum: Object.keys(reactName),
-        required: [true, "React name is required."],
+        enum: Object.values(reactionName),
+        required: [true, "Reaction name is required."],
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -38,4 +38,4 @@ const reactSchema = new Schema<TReact>({
 
 
 // Create and export the React model
-export const reactModel = model("Reaction", reactSchema);
+export const reactionModel = model("Reaction", reactionSchema);

@@ -1,16 +1,16 @@
 
 // all the imports here
 import { Types } from "mongoose";
-import { reactName } from "./reaction.constant";
+import { reactionName } from "./reaction.constant";
 
 
 // react name type
-export type TReactName = keyof typeof reactName;
+export type TReactionName = keyof typeof reactionName;
 
 
 // react type
-export type TReact = {
-    reactName: TReactName;
+export type TReaction = {
+    reactionName: TReactionName;
     user: Types.ObjectId;
     post?: Types.ObjectId;
     comment?: Types.ObjectId;

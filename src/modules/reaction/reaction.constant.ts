@@ -1,6 +1,6 @@
 
-// all the react
-export const reactName = {
+// all the reaction name
+export const reactionName = {
     like: 'like',
     disLike: 'disLike',
     sad: 'sad',
