@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { userGender, userRole, userStatus } from "./user.constant";
 
+
 // create user validation schema
 const createUserValidationSchema = z.object({
     body: z.object({
@@ -61,6 +62,7 @@ const blockUserValidationSchema = z.object({
     }),
 });
 
+
 // block user validation schema
 const deleteUserValidationSchema = z.object({
     body: z.object({
@@ -69,10 +71,20 @@ const deleteUserValidationSchema = z.object({
 });
 
 
+// block user validation schema
+const convertUserToAdminValidationSchema = z.object({
+    body: z.object({
+        userId: z.string({ required_error: 'User Id is required.' }).nonempty('This field can not be empty.'),
+    }),
+});
+
+
+
 // export all the user validation schema
 export const userValidationSchema = {
     createUserValidationSchema,
     updateUserValidationSchema,
     blockUserValidationSchema,
     deleteUserValidationSchema,
+    convertUserToAdminValidationSchema,
 };

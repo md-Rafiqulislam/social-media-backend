@@ -7,12 +7,14 @@ import { userRole } from "./user.constant";
 import { userControllers } from "./user.controller";
 import { userValidationSchema } from "./user.validation";
 
+
 // create a router
 const router = createRotuer();
 
+
 // create user
 router.post(
-    '/create-user',
+    '/register-user',
     validateRequest(userValidationSchema.createUserValidationSchema),
     userControllers.createUser
 );
@@ -66,8 +68,20 @@ router.delete(
     '/delete-user/:userId',
     auth(userRole.admin, userRole.superAdmin),
     validateRequest(userValidationSchema.deleteUserValidationSchema),
-    userControllers.deletekUserByAdmin,
+    userControllers.deleteUserByAdmin,
 );
+
+
+// convert user to admin
+router.patch(
+    '/convert-user-to-admin/:userId',
+    auth(userRole.admin, userRole.superAdmin),
+    validateRequest(
+        userValidationSchema.convertUserToAdminValidationSchema
+    ),
+    userControllers.convertUserToAdminByAdmin,
+);
+
 
 // export user routes
 export const userRoutes = router;

@@ -117,6 +117,27 @@ const deleteUserByAdminIntoDb = async (userId: string) => {
 };
 
 
+// make the user to admin by admin into db
+const convertUserToAdminByAdminIntoDb = async (userId: string) => {
+    // find the user
+    const user = await userModel.findById({ _id: userId }).select('userRole');
+
+    // check the user
+    const checkedUser = checkUserIsValid(user);
+    if (!checkedUser) {
+        sendError(HttpStatus.CONFLICT, 'This User is not valid.');
+    }
+
+    if (user?.userRole === userRole.admin) {
+        sendError(HttpStatus.CONFLICT, 'This User is already admin');
+    }
+
+    // find and update the user
+    const result = await userModel.findByIdAndUpdate({ _id: userId }, { userRole: userRole.admin }, { new: true });
+    return result;
+};
+
+
 // all the user services
 export const userServices = {
     createUserIntoDb,
@@ -126,4 +147,5 @@ export const userServices = {
     deleteUserIntoDb,
     blockUserIntoDb,
     deleteUserByAdminIntoDb,
+    convertUserToAdminByAdminIntoDb,
 };
