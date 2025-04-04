@@ -83,5 +83,16 @@ router.patch(
 );
 
 
+// convert user to admin
+router.patch(
+    '/convert-admin-to-user/:userId',
+    auth(userRole.admin, userRole.superAdmin),
+    validateRequest(
+        userValidationSchema.convertUserToAdminValidationSchema
+    ),
+    userControllers.convertAdminToUserByAdmin,
+);
+
+
 // export user routes
 export const userRoutes = router;

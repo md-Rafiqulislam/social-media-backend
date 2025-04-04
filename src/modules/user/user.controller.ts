@@ -134,6 +134,25 @@ const convertUserToAdminByAdmin = catchAsync(async (req, res) => {
 });
 
 
+// convert the admin to user by admin
+const convertAdminToUserByAdmin = catchAsync(async (req, res) => {
+
+    // check the params and data
+    if(req.params.userId !== req.body.userId) {
+        sendError(HttpStatus.CONFLICT, 'Params User id and send User Id is not matched.');
+    }
+
+    const result = await userServices.convertAdminToUserByAdminIntoDb(req.params.userId as string);
+
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'Make this Admin to User successfully.',
+        data: result,
+    });
+});
+
+
 // all the user controllers
 export const userControllers = {
     createUser,
@@ -144,4 +163,5 @@ export const userControllers = {
     blockUser,
     deleteUserByAdmin,
     convertUserToAdminByAdmin,
+    convertAdminToUserByAdmin,
 };
