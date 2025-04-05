@@ -32,7 +32,11 @@ const userInfoSchema: Schema = new Schema<TUserInfo>({
     birthDate: {
         type: String,
         required: false,
-    }
+    },
+    profileImage: {
+        type: String,
+        required: false,
+    },
 });
 
 
