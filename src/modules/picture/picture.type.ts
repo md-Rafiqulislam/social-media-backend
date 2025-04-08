@@ -15,6 +15,7 @@ export type TPicture = {
     pictureUploadType?: TPictureUploadType;
     image: string;
     user: Types.ObjectId;
+    isActive?: boolean;
     isDeleted?: boolean;
     isFavourite?: boolean;
 };

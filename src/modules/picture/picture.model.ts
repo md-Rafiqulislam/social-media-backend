@@ -10,10 +10,12 @@ const pictureSchema = new Schema<TPicture>({
     imageTitle: {
         type: String,
         required: false,
+        trim: true,
     },
     imageDescription: {
         type: String,
         required: false,
+        trim: true,
     },
     pictureUploadType: {
         type: String,
@@ -30,6 +32,11 @@ const pictureSchema = new Schema<TPicture>({
         required: [true, 'User Id is required.'],
         ref: 'User',
     },
+    isActive: {
+        type: Boolean,
+        default: true,
+        required: true,
+    },
     isFavourite: {
         type: Boolean,
         default: false,
@@ -40,6 +47,8 @@ const pictureSchema = new Schema<TPicture>({
         default: false,
         required: false,
     }
+},{
+    timestamps: true,
 });
 
 
