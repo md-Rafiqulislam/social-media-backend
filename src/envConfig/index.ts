@@ -16,4 +16,7 @@ export const envFile = {
     accessTokenExpire: Number(process.env.ACCESS_TOKEN_EXPIRE_IN),
     refreshTokenExpire: Number(process.env.REFRESH_TOKEN_EXPIRE_IN),
     saltRounds: process.env.SALT_ROUNDS,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 };
