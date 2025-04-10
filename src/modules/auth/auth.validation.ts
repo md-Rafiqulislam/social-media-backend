@@ -2,6 +2,7 @@
 // all the imports here
 import { z } from "zod";
 
+
 // login validation schema
 const loginValidationSchema = z.object({
     body: z.object({
@@ -10,6 +11,7 @@ const loginValidationSchema = z.object({
     }),
 });
 
+
 // access token validation schema by refresh token
 const refreshTokenValidationSchema = z.object({
     cookies: z.object({
@@ -17,8 +19,19 @@ const refreshTokenValidationSchema = z.object({
     }),
 });
 
+
+// change old password validation schema
+const changeOldPasswordValidationSchema = z.object({
+    body: z.object({
+        oldPassword: z.string({required_error: 'Old password is required.'}),
+        newPassword: z.string({required_error: 'New Password is required.'}),
+    }),
+})
+
+
 // all the auth validation schema
 export const authValidationSchema = {
     loginValidationSchema,
     refreshTokenValidationSchema,
+    changeOldPasswordValidationSchema,
 };

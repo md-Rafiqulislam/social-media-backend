@@ -4,10 +4,11 @@ import { HttpStatus } from "http-status-ts";
 import { envFile } from "../../envConfig";
 import { sendError } from "../../errors/appError";
 import { userModel } from "../user/user.model";
-import { TJwtPayload, TLogin } from "./auth.type";
+import { TChangePassword, TJwtPayload, TLogin } from "./auth.type";
 import { checkedPasswordMatched, createToken } from "./auth.utils";
 import { checkUserIsValid } from "./auth.subService";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import bcrypt from 'bcrypt';
 
 
 // login user into db
@@ -46,6 +47,7 @@ const loginUserIntoDb = async (payload: TLogin) => {
 
 };
 
+
 // get access token by refresh token
 const getAccessTokenByRefreshToken = async (payload: string) => {
 
@@ -72,10 +74,37 @@ const getAccessTokenByRefreshToken = async (payload: string) => {
     return {
         accessToken,
     };
-}
+};
+
+
+// change user old password into db
+const changeOldPasswordIntoDb = async (userPayload: JwtPayload, payload: TChangePassword) => {
+    const { oldPassword, newPassword } = payload;
+
+    // find the user
+    const user = await userModel.findOne({ email: userPayload.email }).select('password');
+
+    // check the password is matched
+    const isPasswordMatched = await checkedPasswordMatched(oldPassword, String(user?.password));
+    if (!isPasswordMatched) {
+        sendError(HttpStatus.NOT_ACCEPTABLE, 'password is not matched.');
+    }
+
+    // /hash the new password
+    const newHashedPassword = await bcrypt.hash(
+        newPassword,
+        Number(envFile.saltRounds),
+    );
+
+    // update the password
+    await userModel.findOneAndUpdate({ email: userPayload.email }, { password: newHashedPassword }, { new: true });
+    return null;
+};
+
 
 // export all the auth services
 export const authServices = {
     loginUserIntoDb,
     getAccessTokenByRefreshToken,
+    changeOldPasswordIntoDb,
 };

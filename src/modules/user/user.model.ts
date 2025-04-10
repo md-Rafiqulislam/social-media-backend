@@ -7,6 +7,7 @@ import { userGender, userRole, userStatus } from "./user.constant"; // user role
 import bcrypt from 'bcrypt';
 import { envFile } from "../../envConfig";
 
+
 // user model schema
 const useerSchema = new Schema<TUser>({
     firstName: {
@@ -63,12 +64,14 @@ const useerSchema = new Schema<TUser>({
     timestamps: true,
 });
 
+
 // hash password before save
 useerSchema.pre('save', async function (next) {
     const user = this;
     user.password = await bcrypt.hash(user.password, Number(envFile.saltRounds));
     next();
 });
+
 
 // don't show the password after save
 useerSchema.post('save', function (doc, next) {

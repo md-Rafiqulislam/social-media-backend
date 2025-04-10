@@ -5,14 +5,13 @@ import { sendError } from '../../errors/appError';
 import { TJwtPayload } from './auth.type';
 import bcrypt from 'bcrypt';
 
+
 // token creation function
 export const createToken = (
     jwtPayload: TJwtPayload,
     secret: string,
     expiresIn: number,
 ) => {
-
-
     try {
         const token = jwt.sign(jwtPayload, secret, { expiresIn });
         return token;

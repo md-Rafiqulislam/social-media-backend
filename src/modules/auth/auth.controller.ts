@@ -5,6 +5,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { authServices } from "./auth.service";
 import { envFile } from "../../envConfig";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // log in user
@@ -45,8 +46,24 @@ const getAccessToken = catchAsync(async (req, res) => {
     });
 });
 
+
+// change old password
+const changePassword = catchAsync(async (req, res) => {
+    const result = await authServices.changeOldPasswordIntoDb(req.user as JwtPayload, req.body);
+
+    
+    // send response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.OK,
+        message: 'User old password is changed successfully.',
+        data: result,
+    });
+});
+
+
 // export all the auth controllers
 export const authControllers = {
     loginUser,
     getAccessToken,
+    changePassword,
 };
