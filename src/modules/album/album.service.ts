@@ -40,8 +40,16 @@ const getAlbumByUserFromDb = async (userId: string) => {
 };
 
 
+// get single album by user from db
+const getSingleAlbumByUserFromDb = async (albumId: string) => {
+    const result = await albumModel.findById({ _id: albumId, isDeleted: false }).lean();
+    return result;
+};
+
+
 // export all the album services
 export const albumServices = {
     createAlbumIntoDb,
     getAlbumByUserFromDb,
+    getSingleAlbumByUserFromDb,
 };

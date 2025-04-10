@@ -21,9 +21,17 @@ router.post(
 
 // get all the album by user
 router.get(
-    '/album/mine',
+    '/get-all-album/mine',
     auth(userRole.user, userRole.admin, userRole.superAdmin),
     albumControllers.getAlbumByUser,
+);
+
+
+// get the single album
+router.get(
+    '/get-album/:albumId',
+    auth(userRole.user, userRole.admin, userRole.superAdmin),
+    albumControllers.getSingleAlbumByUser,
 );
 
 

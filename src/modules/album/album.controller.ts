@@ -44,6 +44,32 @@ const getAlbumByUser = catchAsync(async (req, res) => {
     // send the response to the client
     sendResponse(res, {
         statusCode: HttpStatus.CREATED,
+        message: 'All the Album retrieved successfully.',
+        data: result,
+    });
+});
+
+
+// get single album
+const getSingleAlbumByUser = catchAsync(async (req, res) => {
+    // check the user and the body
+    if (!Types.ObjectId.isValid(req.user.userId)) {
+        sendError(HttpStatus.BAD_REQUEST, 'Invalid User ID.');
+    }
+
+    if (req.user.userId !== req.body.user) {
+        sendError(HttpStatus.BAD_REQUEST, 'You are not authorzied to get this user album.');
+    }
+
+    if (req.params.albumId !== req.body.albumId) {
+        sendError(HttpStatus.BAD_REQUEST, 'Invalid Album Id.');
+    }
+
+    const result = await albumServices.getAlbumByUserFromDb(req.body.albumId as string);
+
+    // send the response to the client
+    sendResponse(res, {
+        statusCode: HttpStatus.CREATED,
         message: 'Album retrieved successfully.',
         data: result,
     });
@@ -54,4 +80,5 @@ const getAlbumByUser = catchAsync(async (req, res) => {
 export const albumControllers = {
     createAlbum,
     getAlbumByUser,
+    getSingleAlbumByUser,
 };
