@@ -8,6 +8,7 @@ import { TUserRole } from "../modules/user/user.type";
 import { envFile } from "../envConfig";
 import { userModel } from "../modules/user/user.model";
 import { checkUserIsValid } from "../modules/auth/auth.subService";
+import { Types } from "mongoose";
 
 // auth middleware
 export const auth = (...requiredRoles: TUserRole[]) => {
@@ -24,6 +25,11 @@ export const auth = (...requiredRoles: TUserRole[]) => {
         // decode and extract the token
         const decoded = jwt.verify(token as string, envFile.accessTokenSecret);
         const { userId, email, userRole } = decoded as JwtPayload;
+
+        // check the valid user Id
+        if (!Types.ObjectId.isValid(userId)) {
+            sendError(HttpStatus.BAD_REQUEST, 'Invalid User ID.');
+        }
 
         // check the user role
         if (requiredRoles && !requiredRoles.includes(userRole)) {

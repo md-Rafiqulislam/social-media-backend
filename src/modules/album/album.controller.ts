@@ -31,10 +31,6 @@ const createAlbum = catchAsync(async (req, res) => {
 const getAlbumByUser = catchAsync(async (req, res) => {
 
     // check the user and the body
-    if (!Types.ObjectId.isValid(req.user.userId)) {
-        sendError(HttpStatus.BAD_REQUEST, 'Invalid User ID.');
-    }
-
     if (req.user.userId !== req.body.user) {
         sendError(HttpStatus.BAD_REQUEST, 'You are not authorzied to get this user album.');
     }
@@ -53,10 +49,6 @@ const getAlbumByUser = catchAsync(async (req, res) => {
 // get single album
 const getSingleAlbumByUser = catchAsync(async (req, res) => {
     // check the user and the body
-    if (!Types.ObjectId.isValid(req.user.userId)) {
-        sendError(HttpStatus.BAD_REQUEST, 'Invalid User ID.');
-    }
-
     if (req.user.userId !== req.body.user) {
         sendError(HttpStatus.BAD_REQUEST, 'You are not authorzied to get this user album.');
     }
