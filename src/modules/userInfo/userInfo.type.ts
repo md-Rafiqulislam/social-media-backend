@@ -17,4 +17,5 @@ export type TUserInfo = {
     maritalStatus?: TUserMaritalStatus;
     birthDate?: string;
     profileImage?: string;
+    coverImage?: string;
 };

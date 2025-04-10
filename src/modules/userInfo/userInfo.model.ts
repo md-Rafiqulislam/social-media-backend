@@ -37,6 +37,12 @@ const userInfoSchema: Schema = new Schema<TUserInfo>({
         type: String,
         required: false,
     },
+    coverImage: {
+        type: String,
+        required: false,
+    },
+}, {
+    timestamps: true,
 });
 
 

@@ -13,6 +13,7 @@ const createUserInfoValidationSchema = z.object({
         maritalStatus: z.enum(["Single", "Married", "Divorced", "Widowed"]).optional(),
         birthDate: z.string().optional(),
         profileImage: z.string().url().optional(),
+        coverImage: z.string().url().optional(),
     }),
 });
 
@@ -27,6 +28,7 @@ const updateUserInfoValidationSchema = z.object({
         maritalStatus: z.enum(["Single", "Married", "Divorced", "Widowed"]).optional(),
         birthDate: z.string().optional(),
         profileImage: z.string().url().optional(),
+        coverImage: z.string().url().optional(),
     }),
 });
 
