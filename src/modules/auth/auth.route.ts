@@ -23,7 +23,7 @@ router.post(
 // get access token
 router.post(
     '/get-access-token',
-    validateRequest(authValidationSchema.refreshTokenValidationSchema),
+    // validateRequest(authValidationSchema.refreshTokenValidationSchema),
     authControllers.getAccessToken
 );
 
@@ -37,6 +37,7 @@ router.post(
         userRole.superAdmin,
     ),
     validateRequest(authValidationSchema.changeOldPasswordValidationSchema),
+    authControllers.changePassword,
 );
 
 

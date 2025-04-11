@@ -5,7 +5,6 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { albumServices } from "./album.service";
 import { sendError } from "../../errors/appError";
-import { Types } from "mongoose";
 
 
 // create album
