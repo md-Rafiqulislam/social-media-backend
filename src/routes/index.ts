@@ -1,7 +1,9 @@
 
 // all the imports here
+import { albumRoutes } from "../modules/album/album.route";
 import { authRoutes } from "../modules/auth/auth.route";
 import { commentRoutes } from "../modules/comment/comment.route";
+import { groupRoutes } from "../modules/group/group.route";
 import { pageRoutes } from "../modules/page/page.route";
 import { postRoutes } from "../modules/post/post.route";
 import { reactionRoutes } from "../modules/reaction/reaction.route";
@@ -42,6 +44,14 @@ const modulesRoute: TRoute[] = [
     {
         path: '/reaction',
         route: reactionRoutes,
+    },
+    {
+        path: '/album',
+        route: albumRoutes,
+    },
+    {
+        path: '/group',
+        route: groupRoutes,
     },
 ];
 
